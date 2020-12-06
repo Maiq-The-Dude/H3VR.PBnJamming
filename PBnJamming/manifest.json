@@ -1,0 +1,17 @@
+﻿{
+  "name": "PB 'n' Jamming",
+  "authors": [
+    "M'aiq",
+    "Ash"
+  ],
+  "guid": "maiq.pbnjamming",
+  "version": "0.0.0",
+  "dependencies": {
+    "deli.core": "0.2.5"
+  },
+  "runtime": {
+    "PBnJamming.dll": "assembly",
+    "assets/itemid.json": "pbnj.id",
+    "assets/action.json": "pbnj.action"
+  }
+}

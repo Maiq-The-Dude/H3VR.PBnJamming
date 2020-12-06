@@ -1,0 +1,12 @@
+{
+  "Automatic": {
+    "fire": 0.50,
+    "feed": 0.50,
+    "eject": 0.50
+  },
+  "Revolver": {
+    "fire": 0.50,
+    "feed": 0.50,
+    "eject": 0.50
+  }
+}
