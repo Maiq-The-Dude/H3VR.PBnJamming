@@ -80,12 +80,9 @@ namespace PBnJamming
 		#region Fire
 		private bool FVRFireArmChamber_Fire(On.FistVR.FVRFireArmChamber.orig_Fire orig, FVRFireArmChamber self)
 		{
-			if (!(self.Firearm is Revolver) && !(self.Firearm is RevolvingShotgun))
+			if (Failed(self.Firearm, m => m.Fire))
 			{
-				if (Failed(self.Firearm, m => m.Fire))
-				{
-					return false;
-				}
+				return false;
 			}
 
 			return orig(self);
