@@ -42,7 +42,8 @@
   "a45_ACP": {
     "fire": 0.0001,
     "feed": 0.0001,
-    "extract": 0.0001
+    "extract": 0.0001,
+    "lockOpen": 0.0001
   },
   "a45_Colt": {
     "fire": 0.0001,
@@ -67,7 +68,8 @@
   "a556_45_Nato": {
     "fire": 0.0001,
     "feed": 0.0001,
-    "extract": 0.0001
+    "extract": 0.0001,
+    "lockOpen":  0.0001
   },
   "a762_25_Tokarev": {
     "fire": 0.0001,
