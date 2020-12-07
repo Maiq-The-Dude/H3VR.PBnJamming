@@ -1,12 +1,8 @@
 {
   "_MagazineTube": {
-    "fire": 0.5,
-    "feed": 0.5,
-    "extract": 0.5
+    "feed": 0.5
   },
   "MagazineAKS74U2": {
-    "fire": 0.01,
-    "feed": 0.01,
-    "extract": 0.01
+    "feed": 0.01
   }
 }

@@ -71,7 +71,6 @@ namespace PBnJamming
 		private void OnDestroy()
 		{
 			// Fire
-			//On.FistVR.FVRFireArmChamber.Fire -= FVRFireArmChamber_Fire;
 			On.FistVR.ClosedBoltWeapon.Fire -= ClosedBoltWeapon_Fire;
 			On.FistVR.OpenBoltReceiver.Fire -= OpenBoltReceiver_Fire;
 			On.FistVR.Handgun.Fire -= Handgun_Fire;
