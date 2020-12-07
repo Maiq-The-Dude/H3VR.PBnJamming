@@ -1,34 +1,16 @@
 {
   "Colonial": {
-    "fire": 0.3,
-    "feed": 0.3,
-    "extract": 0.3,
-    "lockOpen": 0.3
+    "fire": 0.3
   },
-  "Futuristic": {
-    "fire": 0.00,
-    "feed": 0.00,
-    "extract": 0.00,
-    "lockOpen": 0.00
-  },
-  "Medieval": {
-    "fire": 0.00,
-    "feed": 0.00,
-    "extract": 0.00,
-    "lockOpen": 0.00
-  },
+  "Futuristic": { },
+  "Medieval": { },
   "Modern": {
     "fire": 0.001,
     "feed": 0.0025,
     "extract": 0.001,
     "lockOpen": 0.001
   },
-  "None": {
-    "fire": 0.00,
-    "feed": 0.00,
-    "extract": 0.00,
-    "lockOpen": 0.00
-  },
+  "None": { },
   "PostWar": {
     "fire": 0.025,
     "feed": 0.05,

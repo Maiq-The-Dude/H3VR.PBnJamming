@@ -11,7 +11,11 @@
   },
   "BFR": {
     "fire": 0.01,
-    "feed": 0.05,
+    "extract": 0.001
+  },
+  "Express870": {
+    "fire": 0.01,
+    "feed": 0.01,
     "extract": 0.05
   },
   "M1911Tactical": {

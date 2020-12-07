@@ -10,7 +10,7 @@ namespace PBnJamming
 		public readonly float Fire;
 		public readonly float Feed;
 		public readonly float Extract;
-		public readonly float Lock;
+		public readonly float LockOpen;
 
 		[JsonConstructor]
 		public FailureMask(float fire, float feed, float extract, float lockOpen)
@@ -18,7 +18,7 @@ namespace PBnJamming
 			Fire = fire;
 			Feed = feed;
 			Extract = extract;
-			Lock = lockOpen;
+			LockOpen = lockOpen;
 		}
 
 		public static FailureMask operator +(FailureMask a, FailureMask b)
@@ -27,7 +27,7 @@ namespace PBnJamming
 				a.Fire + b.Fire,
 				a.Feed + b.Feed,
 				a.Extract + b.Extract,
-				a.Lock + b.Lock
+				a.LockOpen + b.LockOpen
 			);
 		}
 
@@ -37,7 +37,7 @@ namespace PBnJamming
 				a.Fire * b.Fire,
 				a.Feed * b.Feed,
 				a.Extract * b.Extract,
-				a.Lock * b.Lock
+				a.LockOpen * b.LockOpen
 			);
 		}
 	}
