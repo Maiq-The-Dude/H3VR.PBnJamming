@@ -1,4 +1,4 @@
-﻿using Valve.Newtonsoft.Json;
+using Valve.Newtonsoft.Json;
 
 namespace PBnJamming
 {
@@ -9,14 +9,14 @@ namespace PBnJamming
 
 		public readonly float Fire;
 		public readonly float Feed;
-		public readonly float Eject;
+		public readonly float Extract;
 
 		[JsonConstructor]
-		public FailureMask(float fire, float feed, float eject)
+		public FailureMask(float fire, float feed, float extract)
 		{
 			Fire = fire;
 			Feed = feed;
-			Eject = eject;
+			Extract = extract;
 		}
 
 		public static FailureMask operator +(FailureMask a, FailureMask b)
@@ -24,7 +24,7 @@ namespace PBnJamming
 			return new FailureMask(
 				a.Fire + b.Fire,
 				a.Feed + b.Feed,
-				a.Eject + b.Eject
+				a.Extract + b.Extract
 			);
 		}
 
@@ -33,7 +33,7 @@ namespace PBnJamming
 			return new FailureMask(
 				a.Fire * b.Fire,
 				a.Feed * b.Feed,
-				a.Eject * b.Eject
+				a.Extract * b.Extract
 			);
 		}
 	}

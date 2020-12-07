@@ -1,0 +1,52 @@
+{
+  "Colonial": {
+    "fire": 0.3,
+    "feed": 0.3,
+    "extract": 0.3
+  },
+  "Futuristic": {
+    "fire": 0.00,
+    "feed": 0.00,
+    "extract": 0.00
+  },
+  "Medieval": {
+    "fire": 0.00,
+    "feed": 0.00,
+    "extract": 0.00
+  },
+  "Modern": {
+    "fire": 0.001,
+    "feed": 0.0025,
+    "extract": 0.001
+  },
+  "None": {
+    "fire": 0.00,
+    "feed": 0.00,
+    "extract": 0.00
+  },
+  "PostWar": {
+    "fire": 0.025,
+    "feed": 0.05,
+    "extract": 0.05
+  },
+  "TurnOfTheCentury": {
+    "fire": 0.1,
+    "feed": 0.1,
+    "extract": 0.1
+  },
+  "WildWest": {
+    "fire": 0.125,
+    "feed": 0.125,
+    "extract": 0.125
+  },
+  "WW1": {
+    "fire": 0.05,
+    "feed": 0.05,
+    "extract": 0.05
+  },
+  "WW2": {
+    "fire": 0.05,
+    "feed": 0.05,
+    "extract": 0.01
+  }
+}

@@ -4,14 +4,20 @@
     "M'aiq",
     "Ash"
   ],
-  "guid": "maiq.pbnjamming",
+  "guid": "pbnjamming",
   "version": "0.0.0",
   "dependencies": {
     "deli.core": "0.2.5"
   },
+  "patcher": {
+    "hooks.conf": "monomod.hookgen"
+  },
   "runtime": {
     "PBnJamming.dll": "assembly",
     "assets/itemid.json": "pbnj.id",
-    "assets/action.json": "pbnj.action"
+    "assets/era.json": "pbnj.era",
+    "assets/action.json": "pbnj.action",
+    "assets/roundtype.json": "pbnj.roundtype",
+    "assets/magazine.json":  "pbnj.magazine"
   }
 }

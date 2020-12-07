@@ -1,17 +1,17 @@
 {
   "AKS74U": {
-    "fire": 0.5,
-    "feed": 0.5,
-    "eject": 0.5
+    "fire": 0.05,
+    "feed": 0.05,
+    "extract": 0.05
   },
   "AKS74UTactical": {
-    "fire": 0.5,
-    "feed": 0.5,
-    "eject": 0.5
+    "fire": 0.05,
+    "feed": 0.05,
+    "extract": 0.05
   },
   "BFR": {
-    "fire": 0.5,
-    "feed": 0.5,
-    "eject": 0.5
+    "fire": 0.01,
+    "feed": 0.05,
+    "extract": 0.05
   }
 }
