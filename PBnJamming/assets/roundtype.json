@@ -1,127 +1,607 @@
 {
-  "a22_LR": { },
-  "a22_250": { },
-  "a300_Winchester_Magnum": { },
-  "a3006_Springfield": { },
-  "a308_Winchester": { },
-  "a357_Magnum": { },
-  "a40_SW": { },
-  "a44_Magnum": { },
-  "a45_ACP": { },
-  "a45_Colt": { },
-  "a45_70_Govt": { },
-  "a50_BMG": { },
+  "a22_LR": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a22_250": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a300_Winchester_Magnum": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a3006_Springfield": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a308_Winchester": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a357_Magnum": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a40_SW": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a44_Magnum": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a45_ACP": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a45_Colt": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a45_70_Govt": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a50_BMG": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
   "a545_39_Soviet": {
     "fire": 0.05,
     "feed": 0.05,
     "extract": 0.05
   },
-  "a556_45_Nato": { },
-  "a762_25_Tokarev": { },
-  "a762_39_Soviet": { },
-  "a762_51_Nato": { },
-  "a762_54_Mosin": { },
-  "a9_19_Parabellum": { },
-  "a127_108_AntiMaterial": { },
-  "a145_114_AntiMaterial": { },
-  "a12g_Shotgun": { },
-  "a20g_Shotgun": { },
-  "a40_46_Grenade": { },
-  "a380_ACP": { },
-  "aTempCyber": { },
-  "a8g_Shotgun": { },
-  "a9_18_Makarov": { },
-  "a25_ACP": { },
-  "a50_Remington_BP": { },
-  "a46x30mm": { },
-  "a57x28mm": { },
-  "aRPG7Rocket": { },
-  "a10mmDSM": { },
-  "a32ACP": { },
-  "a41Volcanic": { },
-  "a38Special": { },
-  "a8mmBergmann": { },
-  "a36Moses": { },
-  "a106_25mmR": { },
-  "a35Remington": { },
-  "a762x38mmR": { },
-  "a763x25mmMauser": { },
-  "a792x57mmMauser": { },
-  "a30Carbine": { },
-  "a75x54mmFrench": { },
-  "a455Webley": { },
-  "a792x33mmKurz": { },
-  "a303British": { },
-  "a50ActionExpress": { },
-  "a338Lapua": { },
-  "a500SW": { },
-  "a58x42mm": { },
-  "a23x75mmR": { },
-  "a22WinchesterMagnum": { },
-  "a9x39mm": { },
-  "a65x52mmCarcano": { },
-  "a455WebleyAuto": { },
-  "a408Cheytac": { },
-  "a454Casull": { },
-  "a300Blackout": { },
-  "a10mmAuto": { },
-  "a8x22mmNambu": { },
-  "a47x33mm": { },
-  "a27x90mm": { },
-  "a5mmBergmann": { },
-  "a765x25mmBorchardt": { },
-  "a44_40Winchester": { },
-  "a40mmCaseless": { },
-  "a38Rimfire": { },
-  "aM1A1Rocket": { },
-  "aPanzerSchreckRocket": { },
-  "aSturmPistole": { },
-  "a12GaugeBelted": { },
-  "a600MagnumBolt": { },
-  "a577_450_MH": { },
-  "a38ACP": { },
-  "a9mmSteyr": { },
-  "a8mmLebel": { },
-  "a7_5Swiss": { },
-  "a13_2mmTuF": { },
-  "a41_Short": { },
-  "a10x27mmPulsed": { },
-  "aDarkMatterLemon": { },
-  "a762x42mm": { },
-  "a12gaugeShort": { },
-  "a280British": { },
-  "a45_110Sharps": { },
-  "a20x82mm": { },
-  "a44Rimfire": { },
-  "a32Rimfire": { },
-  "a22Short": { },
-  "a7x20mmNambu": { },
-  "a7_5FK": { },
-  "a357Sig": { },
-  "a9x21mmGyurza": { },
-  "a7_7x58mmAriska": { },
-  "a10gauge": { },
-  "a765x20mmLongue": { },
-  "a243Winchester": { },
-  "a17Hornet": { },
-  "a410": { },
-  "mf_rocket": { },
-  "mf_13Gauge": { },
-  "mf_7GaugeStout": { },
-  "mf_11mmMannChevski": { },
-  "mf_366UltraMagnum": { },
-  "mf_12x32mmDingowhomper": { },
-  "mf_18x50mmPackawallop": { },
-  "mf_42mmNade": { },
-  "mf_Syringe": { },
-  "mf_6mmMannlecker": { },
-  "mf_StickyShell": { },
-  "mf_10_5x35mmDutch": { },
-  "mf_52AMP": { },
-  "aCpbp": { },
-  "a50mmPotato": { },
-  "aHCBBolt": { },
-  "aFlameThrowerFuel": { },
-  "a50_Imaginary": { },
-  "a45_ColtOversize": { }
+  "a556_45_Nato": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a762_25_Tokarev": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a762_39_Soviet": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a762_51_Nato": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a762_54_Mosin": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a9_19_Parabellum": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a127_108_AntiMaterial": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a145_114_AntiMaterial": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a12g_Shotgun": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a20g_Shotgun": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a40_46_Grenade": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a380_ACP": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "aTempCyber": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a8g_Shotgun": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a9_18_Makarov": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a25_ACP": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a50_Remington_BP": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a46x30mm": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a57x28mm": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "aRPG7Rocket": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a10mmDSM": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a32ACP": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a41Volcanic": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a38Special": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a8mmBergmann": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a36Moses": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a106_25mmR": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a35Remington": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a762x38mmR": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a763x25mmMauser": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a792x57mmMauser": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a30Carbine": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a75x54mmFrench": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a455Webley": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a792x33mmKurz": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a303British": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a50ActionExpress": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a338Lapua": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a500SW": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a58x42mm": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a23x75mmR": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a22WinchesterMagnum": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a9x39mm": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a65x52mmCarcano": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a455WebleyAuto": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a408Cheytac": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a454Casull": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a300Blackout": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a10mmAuto": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a8x22mmNambu": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a47x33mm": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a27x90mm": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a5mmBergmann": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a765x25mmBorchardt": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a44_40Winchester": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a40mmCaseless": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a38Rimfire": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "aM1A1Rocket": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "aPanzerSchreckRocket": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "aSturmPistole": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a12GaugeBelted": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a600MagnumBolt": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a577_450_MH": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a38ACP": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a9mmSteyr": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a8mmLebel": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a7_5Swiss": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a13_2mmTuF": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a41_Short": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a10x27mmPulsed": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "aDarkMatterLemon": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a762x42mm": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a12gaugeShort": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a280British": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a45_110Sharps": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a20x82mm": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a44Rimfire": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a32Rimfire": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a22Short": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a7x20mmNambu": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a7_5FK": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a357Sig": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a9x21mmGyurza": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a7_7x58mmAriska": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a10gauge": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a765x20mmLongue": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a243Winchester": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a17Hornet": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a410": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_rocket": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_13Gauge": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_7GaugeStout": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_11mmMannChevski": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_366UltraMagnum": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_12x32mmDingowhomper": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_18x50mmPackawallop": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_42mmNade": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_Syringe": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_6mmMannlecker": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_StickyShell": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_10_5x35mmDutch": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "mf_52AMP": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "aCpbp": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a50mmPotato": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "aHCBBolt": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "aFlameThrowerFuel": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a50_Imaginary": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  },
+  "a45_ColtOversize": {
+    "fire": 0.0001,
+    "feed": 0.0001,
+    "extract": 0.0001
+  }
 }
