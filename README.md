@@ -18,6 +18,7 @@ A WIP firearm malfunction mod inspired by [Meatyceiver 2](https://github.com/pot
   - fire
   - feed
   - extract
+  - lockOpen
 
 ## Installation
 No releases available yet. To install you must build the project yourself and place into `mods` folder as this is a Deli mod.
