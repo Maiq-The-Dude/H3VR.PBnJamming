@@ -14,6 +14,7 @@ A WIP firearm malfunction mod inspired by [Meatyceiver 2](https://github.com/pot
   - Handgun
   - ClosedBolt
   - OpenBolt
+  - TubeFedShotgun
   
 ## Configuration
 - Firearm tags are configured under the [`assets`](https://github.com/Maiq-The-Dude/PBnJamming/tree/main/PBnJamming/assets) folder. 
