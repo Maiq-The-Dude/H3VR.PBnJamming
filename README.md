@@ -11,6 +11,14 @@ A WIP firearm malfunction mod inspired by [Meatyceiver 2](https://github.com/pot
   - Magazine
 - Firearm tags are modular and easy to config and add to. Uses [Deli](https://github.com/Deli-Counter/Deli) to easily load corresponding JSON files.
 
+## Configuration
+- Firearm tags are configured under the [`assets`](https://github.com/Maiq-The-Dude/PBnJamming/tree/main/PBnJamming/assets) folder. 
+- Each firearm tag (currently) supports three malfunction properties, each containing a float used as it's weighted chance value.
+- Malfunction properties:
+  - fire
+  - feed
+  - extract
+
 ## Installation
 No releases available yet. To install you must build the project yourself and place into `mods` folder as this is a Deli mod.
 
