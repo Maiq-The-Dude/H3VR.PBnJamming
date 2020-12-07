@@ -13,5 +13,15 @@
     "fire": 0.01,
     "feed": 0.05,
     "extract": 0.05
+  },
+  "M1911Tactical": {
+    "fire": 0.01,
+    "feed": 0.05,
+    "extract": 0.05
+  },
+  "ThompsonM1A1": {
+    "fire": 0.01,
+    "feed": 0.05,
+    "extract": 0.05
   }
 }

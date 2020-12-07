@@ -19,32 +19,50 @@ namespace PBnJamming
 		{
 			Configs = new RootConfigs(Config);
 
-			Failure = AddFailure("pbnj.magazine", g => g.Magazine)
+			Failure = AddFailure("pbnj.magazine", g => g.Magazine.ObjectWrapper.ItemID)
 				.AddFailure("pbnj.roundtype", g => g.RoundType)
 				.AddFailure("pbnj.action", g => g.ObjectWrapper.TagFirearmAction)
 				.AddFailure("pbnj.era", g => g.ObjectWrapper.TagEra)
 				.AddFailure("pbnj.id", g => g.ObjectWrapper.ItemID);
 
+			// Fire
 			On.FistVR.FVRFireArmChamber.Fire += FVRFireArmChamber_Fire;
-			On.FistVR.ClosedBolt.ImpartFiringImpulse += ClosedBolt_ImpartFiringImpulse;
+
+			// Feed
 			On.FistVR.ClosedBoltWeapon.BeginChamberingRound += ClosedBoltWeapon_BeginChamberingRound;
+			On.FistVR.OpenBoltReceiver.BeginChamberingRound += OpenBoltReceiver_BeginChamberingRound;
+			On.FistVR.Handgun.ExtractRound += Handgun_ExtractRound;
+
+			// Extract
+			On.FistVR.ClosedBolt.ImpartFiringImpulse += ClosedBolt_ImpartFiringImpulse;
+			On.FistVR.OpenBoltReceiverBolt.ImpartFiringImpulse += OpenBoltReceiverBolt_ImpartFiringImpulse;
+			On.FistVR.HandgunSlide.ImpartFiringImpulse += HandgunSlide_ImpartFiringImpulse;
 		}
 
 		private void OnDestroy()
 		{
+			// Fire
 			On.FistVR.FVRFireArmChamber.Fire -= FVRFireArmChamber_Fire;
-			On.FistVR.ClosedBolt.ImpartFiringImpulse -= ClosedBolt_ImpartFiringImpulse;
+
+			// Feed
 			On.FistVR.ClosedBoltWeapon.BeginChamberingRound -= ClosedBoltWeapon_BeginChamberingRound;
+			On.FistVR.OpenBoltReceiver.BeginChamberingRound -= OpenBoltReceiver_BeginChamberingRound;
+			On.FistVR.Handgun.ExtractRound -= Handgun_ExtractRound;
+
+			// Extract
+			On.FistVR.ClosedBolt.ImpartFiringImpulse -= ClosedBolt_ImpartFiringImpulse;
+			On.FistVR.OpenBoltReceiverBolt.ImpartFiringImpulse -= OpenBoltReceiverBolt_ImpartFiringImpulse;
+			On.FistVR.HandgunSlide.ImpartFiringImpulse -= HandgunSlide_ImpartFiringImpulse;
 		}
 
 		private bool Failed(FVRFireArm gun, Mapper<FailureMask, float> type)
 		{
 			var ran = Random.Range(0f, 1f);
-			var chance = type(Failure[gun])*Configs.Multiplier.Value;
+			var chance = type(Failure[gun]) * Configs.Multiplier.Value;
 
 			if (Configs.EnableLogging.Value)
 			{
-				var builder = new StringBuilder().AppendLine() // newline
+				var builder = new StringBuilder().AppendLine()
 					.Append("ItemID: " + gun.ObjectWrapper.ItemID).AppendLine()
 					.Append("Era: " + gun.ObjectWrapper.TagEra).AppendLine()
 					.Append("Action: " + gun.ObjectWrapper.TagFirearmAction).AppendLine()
@@ -62,12 +80,47 @@ namespace PBnJamming
 		#region Fire
 		private bool FVRFireArmChamber_Fire(On.FistVR.FVRFireArmChamber.orig_Fire orig, FVRFireArmChamber self)
 		{
-			if (Failed(self.Firearm, m => m.Fire))
+			if (!(self.Firearm is Revolver) && !(self.Firearm is RevolvingShotgun))
 			{
-				return false;
+				if (Failed(self.Firearm, m => m.Fire))
+				{
+					return false;
+				}
 			}
 
 			return orig(self);
+		}
+		#endregion
+
+		#region Feed
+		private void ClosedBoltWeapon_BeginChamberingRound(On.FistVR.ClosedBoltWeapon.orig_BeginChamberingRound orig, ClosedBoltWeapon self)
+		{
+			if (Failed(self, m => m.Feed))
+			{
+				return;
+			}
+
+			orig(self);
+		}
+
+		private void OpenBoltReceiver_BeginChamberingRound(On.FistVR.OpenBoltReceiver.orig_BeginChamberingRound orig, OpenBoltReceiver self)
+		{
+			if (Failed(self, m => m.Feed))
+			{
+				return;
+			}
+
+			orig(self);
+		}
+
+		private void Handgun_ExtractRound(On.FistVR.Handgun.orig_ExtractRound orig, Handgun self)
+		{
+			if (Failed(self, m => m.Feed))
+			{
+				return;
+			}
+
+			orig(self);
 		}
 		#endregion
 
@@ -82,19 +135,29 @@ namespace PBnJamming
 
 			orig(self);
 		}
-		#endregion
 
-
-		#region Feed
-		private void ClosedBoltWeapon_BeginChamberingRound(On.FistVR.ClosedBoltWeapon.orig_BeginChamberingRound orig, ClosedBoltWeapon self)
+		private void OpenBoltReceiverBolt_ImpartFiringImpulse(On.FistVR.OpenBoltReceiverBolt.orig_ImpartFiringImpulse orig, OpenBoltReceiverBolt self)
 		{
-			if (Failed(self, m => m.Feed))
+			if (Failed(self.Receiver, m => m.Extract))
 			{
+				self.RotationInterpSpeed = 2;
 				return;
 			}
 
 			orig(self);
 		}
+
+		private void HandgunSlide_ImpartFiringImpulse(On.FistVR.HandgunSlide.orig_ImpartFiringImpulse orig, HandgunSlide self)
+		{
+			if (Failed(self.Handgun, m => m.Extract))
+			{
+				self.RotationInterpSpeed = 2;
+				return;
+			}
+
+			orig(self);
+		}
+
 		#endregion
 
 		public static IFailure AddFailure<TKey>(string name, Mapper<FVRFireArm, TKey> keyFromGun)
