@@ -110,7 +110,12 @@
   "G18C": {},
   "G19": {},
   "G22": {},
-  "G22FullAutoMod": {},
+  "G22FullAutoMod": {
+    "fire": 0.001,
+    "feed": 0.025,
+    "extract": 0.001,
+    "lockOpen":  0.02
+  },
   "Gluger": {},
   "GSh18": {},
   "H416": {},
@@ -177,8 +182,18 @@
   "M1897Trench": {},
   "M1903Springfield": {},
   "M1903SpringfieldScope": {},
-  "M1911": {},
-  "M1911Classic": {},
+  "M1911": {
+    "fire": 0.05,
+    "feed": 0.02,
+    "extract": 0.05,
+    "lockOpen": 0.10
+  },
+  "M1911Classic": {
+    "fire": 0.02,
+    "feed": 0.02,
+    "extract": 0.04,
+    "lockOpen": 0.08
+  },
   "M1911Dillinger": {},
   "M1911Gold": {},
   "M1911Longflop": {},
@@ -187,8 +202,8 @@
   "M1911OverSize": {},
   "M1911Tactical": {
     "fire": 0.01,
-    "feed": 0.05,
-    "extract": 0.05,
+    "feed": 0.01,
+    "extract": 0.01,
     "lockOpen": 0.01
   },
   "M1911Stamped": {},

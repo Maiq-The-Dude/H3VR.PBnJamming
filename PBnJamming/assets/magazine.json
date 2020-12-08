@@ -1,8 +1,14 @@
 {
   "_MagazineTube": {
-    "feed": 0.5
+    "feed": 0.01
   },
   "MagazineAKS74U2": {
+    "feed": 0.01
+  },
+  "MagazineG22HighCapacity": {
+    "feed": 0.9
+  },
+  "MagazineG22Standard": {
     "feed": 0.01
   }
 }

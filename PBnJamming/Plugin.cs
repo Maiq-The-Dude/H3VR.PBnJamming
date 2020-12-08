@@ -39,7 +39,7 @@ namespace PBnJamming
 		{
 			Configs = new RootConfigs(Config);
 
-			Failure = AddFailure("pbnj.magazine", g => g.Magazine.IsIntegrated ? g.Magazine.name : g.Magazine.ObjectWrapper.ItemID)
+			Failure = AddFailure("pbnj.magazine", g => g.Magazine == null ? "" : (g.Magazine.IsIntegrated ? g.Magazine.name : g.Magazine.ObjectWrapper.ItemID))
 				.AddFailure("pbnj.roundtype", g => g.RoundType)
 				.AddFailure("pbnj.action", g => g.ObjectWrapper.TagFirearmAction)
 				.AddFailure("pbnj.era", g => g.ObjectWrapper.TagEra)
@@ -101,12 +101,12 @@ namespace PBnJamming
 			if (Configs.EnableLogging.Value)
 			{
 				var builder = new StringBuilder().AppendLine()
-					.Append("┌─────Failure Roll Report─────")
+					.Append("┌─────Failure Roll Report─────").AppendLine()
 					.Append("│ ItemID: " + gun.ObjectWrapper.ItemID).AppendLine()
 					.Append("│  Era: " + gun.ObjectWrapper.TagEra).AppendLine()
 					.Append("│  Action: " + gun.ObjectWrapper.TagFirearmAction).AppendLine()
 					.Append("│  Round: " + gun.RoundType).AppendLine()
-					.Append("│  Magazine: " + (gun.Magazine.IsIntegrated ? gun.Magazine.name : gun.Magazine.ObjectWrapper.ItemID)).AppendLine()
+					.Append("│  Magazine: " + (gun.Magazine == null ? "" : (gun.Magazine.IsIntegrated ? gun.Magazine.name : gun.Magazine.ObjectWrapper.ItemID))).AppendLine()
 					.Append("│ Failure Rolled: " + failure).AppendLine()
 					.Append("│  Random: " + ran).AppendLine()
 					.Append("│  Chance: " + chance).AppendLine()
