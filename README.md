@@ -11,14 +11,16 @@ A WIP firearm malfunction mod inspired by [Meatyceiver 2](https://github.com/pot
   - Magazine
 - Firearm tags are modular and easy to configure. Uses [Deli](https://github.com/Deli-Counter/Deli) to easily load corresponding JSON files. See the [Configuration](https://github.com/Maiq-The-Dude/PBnJamming#configuration) section below for more information.
 - Firearms currently supported:
-  - Handgun
+  - BoltActionRifle
+  - BreakActionWeapon
   - ClosedBolt
+  - Handgun
+  - LeverActionFirearm
   - OpenBolt
-  - TubeFedShotgun
   - Revolver
   - RevolvingShotgun
-  - BreakActionWeapon
-  - LeverActionFirearm
+  - RollingBlock
+  - TubeFedShotgun  
   
 ## Configuration
 - Default firearm tags are configured under the [`assets`](https://github.com/Maiq-The-Dude/PBnJamming/tree/main/PBnJamming/assets) folder. 
