@@ -6,6 +6,9 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="all" />
+    <PackageReference Include="jnm2.ReferenceAssemblies.net35" Version="1.0.1" PrivateAssets="all" />
+
     <PackageReference Include="Deli.Runtime" Version="0.2.5" />
   </ItemGroup>
 
@@ -17,7 +20,7 @@
       <HintPath>..\libs\MMHOOK_Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Valve.Newtonsoft.Json">
-      <HintPath>..\game\h3vr_Data\Managed\Valve.Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\libs\Valve.Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
 

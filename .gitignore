@@ -360,7 +360,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/PBnJamming/H3VR
-/src/H3VR
+
+# VS Code
+.vscode
+
+# Game symlink
 /game
-/libs
