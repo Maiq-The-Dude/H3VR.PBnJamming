@@ -34,8 +34,15 @@
   "Bling15": {},
   "Blyskawica": {},
   "Bodyguard38": {},
-  "BreakActionShotgun12g": {},
-  "BreakActionShotgun12gSuperShort": {},
+  "BreakAction": {},
+  "BreakActionShorty": {
+    "fire": 0.001,
+    "extract": 0.01
+  },
+  "BreakActionSuperShorty": {
+    "fire": 0.001,
+    "extract": 0.01
+  },
   "Bren": {},
   "BrenShorty": {},
   "Bren806": {},
@@ -79,7 +86,8 @@
   "Express870": {
     "fire": 0.01,
     "feed": 0.01,
-    "extract": 0.05
+    "extract": 0.05,
+    "accDischarge": 0.0001
   },
   "FA83": {},
   "FabarmMarshall": {},
@@ -114,7 +122,7 @@
     "fire": 0.001,
     "feed": 0.025,
     "extract": 0.001,
-    "lockOpen":  0.02
+    "lockOpen": 0.02
   },
   "Gluger": {},
   "GSh18": {},
@@ -143,8 +151,11 @@
   "Jetfire950STD": {},
   "Johnson1941": {},
   "K50m": {},
-  "K98k": {},
-  "K98kScope": {},
+  "K98k": {
+    "fire": 0.1,
+    "feed": 0.25,
+    "extract": 0.1
+  },
   "Kalishniluger": {},
   "Kolibri9000": {},
   "KP31": {},
@@ -204,7 +215,8 @@
     "fire": 0.01,
     "feed": 0.01,
     "extract": 0.01,
-    "lockOpen": 0.01
+    "lockOpen": 0.01,
+    "accDischarge": 0.0001
   },
   "M1911Stamped": {},
   "M1912": {},
@@ -297,7 +309,8 @@
     "fire": 0.01,
     "feed": 0.05,
     "extract": 0.05,
-    "lockOpen": 0.01
+    "lockOpen": 0.01,
+    "accDischarge": 0.0001
   },
   "Mk22Hushpuppy": {},
   "Mk23": {},
@@ -347,7 +360,9 @@
   "Mp9": {},
   "MRAD": {},
   "MTS255": {},
-  "MTS255Shorty": {},
+  "MTs255Shorty": {
+    "fire":  0.001
+  },
   "MX4": {},
   "P22": {},
   "P226": {},
@@ -387,11 +402,19 @@
   "Rhino40": {},
   "Rhino50": {},
   "Rhino60": {},
-  "RioBigBore": {},
+  "RioBigBore": {
+    "fire": 0.001
+  },
   "RioBigBoreSalvaged": {},
-  "RollingBlockHandgun": {},
-  "RollingBlockRifle8mmLebel": {},
-  "RollingBlockRifleCreedmoor": {},
+  "RollingBlockHandgun": {
+    "fire": 0.01
+  },
+  "RollingBlockRifle": {
+    "fire": 0.01
+  },
+  "RollingBlockRifleCreedmoor": {
+    "fire":  0.01
+  },
   "RPD": {},
   "RPG7": {},
   "RS15": {},
@@ -437,8 +460,7 @@
   "SVT40PUScope": {},
   "SW29": {},
   "SW500": {
-    "fire": 0.01,
-    "extract": 0.05
+    "fire": 0.01
   },
   "SW500Junior": {},
   "SW629": {},
@@ -454,7 +476,8 @@
   "ThompsonM1A1": {
     "fire": 0.01,
     "feed": 0.05,
-    "extract": 0.05
+    "extract": 0.05,
+    "accDischarge": 0.1
   },
   "ThompsonMk2": {},
   "ThrowbackSingleShot12g": {},
