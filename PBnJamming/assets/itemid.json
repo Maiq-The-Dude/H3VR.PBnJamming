@@ -1,4 +1,11 @@
 {
+  "": {
+    "fire": 0.02,
+    "feed": 0.02,
+    "extract": 0.02,
+    "lockOpen":  0.02,
+    "accDischarge": 0.001
+  },
   "AK101": {},
   "AK12": {},
   "AA12": {},
@@ -197,13 +204,15 @@
     "fire": 0.05,
     "feed": 0.02,
     "extract": 0.05,
-    "lockOpen": 0.10
+    "lockOpen": 0.10,
+    "accDischarge": 0.001
   },
   "M1911Classic": {
     "fire": 0.02,
     "feed": 0.02,
     "extract": 0.04,
-    "lockOpen": 0.08
+    "lockOpen": 0.08,
+    "accDischarge": 0.0001
   },
   "M1911Dillinger": {},
   "M1911Gold": {},
@@ -361,7 +370,7 @@
   "MRAD": {},
   "MTS255": {},
   "MTs255Shorty": {
-    "fire":  0.001
+    "fire": 0.001
   },
   "MX4": {},
   "P22": {},
@@ -403,7 +412,8 @@
   "Rhino50": {},
   "Rhino60": {},
   "RioBigBore": {
-    "fire": 0.001
+    "fire": 0.001,
+    "feed": 0.2
   },
   "RioBigBoreSalvaged": {},
   "RollingBlockHandgun": {
@@ -413,7 +423,7 @@
     "fire": 0.01
   },
   "RollingBlockRifleCreedmoor": {
-    "fire":  0.01
+    "fire": 0.01
   },
   "RPD": {},
   "RPG7": {},

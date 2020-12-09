@@ -1,5 +1,5 @@
 {
-  "_MagazineTube": {
+  "Express870": {
     "feed": 0.01
   },
   "MagazineAKS74U2": {
@@ -10,5 +10,8 @@
   },
   "MagazineG22Standard": {
     "feed": 0.01
+  },
+  "RioBigBore": {
+    "feed": 0.30
   }
 }

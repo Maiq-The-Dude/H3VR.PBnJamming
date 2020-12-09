@@ -5,8 +5,6 @@ using FistVR;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Text;
-using System;
-using UnityEngine;
 
 namespace PBnJamming
 {
@@ -32,11 +30,11 @@ namespace PBnJamming
 		{
 			Configs = new RootConfigs(Config);
 
-			Failure = AddFailure("pbnj.magazine", g => g.Magazine == null ? "" : (g.Magazine.IsIntegrated ? g.Magazine.name : g.Magazine.ObjectWrapper.ItemID))
+			Failure = AddFailure("pbnj.magazine", g => (g.Magazine == null || g.Magazine.ObjectWrapper == null) ? "" : (g.Magazine.IsIntegrated ? g.Magazine.FireArm.ObjectWrapper.ItemID : g.Magazine.ObjectWrapper.ItemID))
 				.AddFailure("pbnj.roundtype", g => g.RoundType)
-				.AddFailure("pbnj.action", g => g.ObjectWrapper.TagFirearmAction)
-				.AddFailure("pbnj.era", g => g.ObjectWrapper.TagEra)
-				.AddFailure("pbnj.id", g => g.ObjectWrapper.ItemID);
+				.AddFailure("pbnj.action", g => g.ObjectWrapper == null ? FVRObject.OTagFirearmAction.None : g.ObjectWrapper.TagFirearmAction)
+				.AddFailure("pbnj.era", g => g.ObjectWrapper == null ? FVRObject.OTagEra.None : g.ObjectWrapper.TagEra)
+				.AddFailure("pbnj.id", g => g.ObjectWrapper == null ? "" : g.ObjectWrapper.ItemID);
 
 			// Patches
 			On.FistVR.BreakActionWeapon.Awake += BreakActionWeapon_Awake;
@@ -58,6 +56,7 @@ namespace PBnJamming
 			On.FistVR.OpenBoltReceiver.BeginChamberingRound += OpenBoltReceiver_BeginChamberingRound;
 			On.FistVR.Handgun.ExtractRound += Handgun_ExtractRound;
 			On.FistVR.TubeFedShotgun.ExtractRound += TubeFedShotgun_ExtractRound;
+			On.FistVR.FVRFireArmChamber.SetRound += FVRFireArmChamber_SetRound;	// LeverActionFirearm & BoltActionRifle
 
 			// Extract
 			On.FistVR.ClosedBolt.ImpartFiringImpulse += ClosedBolt_ImpartFiringImpulse;
@@ -71,12 +70,10 @@ namespace PBnJamming
 			On.FistVR.Handgun.EngageSlideRelease += Handgun_EngageSlideRelease;
 			On.FistVR.ClosedBolt.LockBolt += ClosedBolt_LockBolt;
 
-			// Slamfire
+			// AccDischarge
 			On.FistVR.HandgunSlide.SlideEvent_ArriveAtFore += HandgunSlide_SlideEvent_ArriveAtFore;
 			On.FistVR.ClosedBolt.BoltEvent_ArriveAtFore += ClosedBolt_BoltEvent_ArriveAtFore;
 			On.FistVR.TubeFedShotgunBolt.BoltEvent_ArriveAtFore += TubeFedShotgunBolt_BoltEvent_ArriveAtFore;
-
-			// SeerSlip
 			On.FistVR.OpenBoltReceiverBolt.BoltEvent_BoltCaught += OpenBoltReceiverBolt_BoltEvent_BoltCaught;
 		}
 
@@ -103,6 +100,7 @@ namespace PBnJamming
 			On.FistVR.Handgun.ExtractRound -= Handgun_ExtractRound;
 			On.FistVR.TubeFedShotgun.ExtractRound -= TubeFedShotgun_ExtractRound;
 			On.FistVR.BreakActionWeapon.PopOutEmpties -= BreakActionWeapon_PopOutEmpties;
+			On.FistVR.FVRFireArmChamber.SetRound -= FVRFireArmChamber_SetRound;
 
 			// Extract
 			On.FistVR.ClosedBolt.ImpartFiringImpulse -= ClosedBolt_ImpartFiringImpulse;
@@ -116,12 +114,10 @@ namespace PBnJamming
 			On.FistVR.Handgun.EngageSlideRelease -= Handgun_EngageSlideRelease;
 			On.FistVR.ClosedBolt.LockBolt -= ClosedBolt_LockBolt;
 
-			// Slamfire
+			// AccDischarge
 			On.FistVR.HandgunSlide.SlideEvent_ArriveAtFore -= HandgunSlide_SlideEvent_ArriveAtFore;
 			On.FistVR.ClosedBolt.BoltEvent_ArriveAtFore -= ClosedBolt_BoltEvent_ArriveAtFore;
 			On.FistVR.TubeFedShotgunBolt.BoltEvent_ArriveAtFore -= TubeFedShotgunBolt_BoltEvent_ArriveAtFore;
-
-			// SeerSlip
 			On.FistVR.OpenBoltReceiverBolt.BoltEvent_BoltCaught -= OpenBoltReceiverBolt_BoltEvent_BoltCaught;
 		}
 
@@ -134,11 +130,11 @@ namespace PBnJamming
 			{
 				var builder = new StringBuilder().AppendLine()
 					.Append("┌─────Failure Roll Report─────").AppendLine()
-					.Append("│ ItemID: ").Append(gun.ObjectWrapper.ItemID).AppendLine()
-					.Append("│  Era: ").Append(gun.ObjectWrapper.TagEra).AppendLine()
-					.Append("│  Action: ").Append(gun.ObjectWrapper.TagFirearmAction).AppendLine()
+					.Append("│ ItemID: ").Append(gun.ObjectWrapper == null ? "" : gun.ObjectWrapper.ItemID).AppendLine()
+					.Append("│  Era: ").Append(gun.ObjectWrapper == null ? FVRObject.OTagFirearmAction.None : gun.ObjectWrapper.TagFirearmAction).AppendLine()
+					.Append("│  Action: ").Append(gun.ObjectWrapper == null ? FVRObject.OTagFirearmAction.None : gun.ObjectWrapper.TagFirearmAction).AppendLine()
 					.Append("│  Round: ").Append(gun.RoundType).AppendLine()
-					.Append("│  Magazine: ").Append(gun.Magazine == null ? "" : (gun.Magazine.IsIntegrated ? gun.Magazine.name : gun.Magazine.ObjectWrapper.ItemID)).AppendLine()
+					.Append("│  Magazine: ").Append((gun.Magazine == null || gun.Magazine.ObjectWrapper == null) ? "" : (gun.Magazine.IsIntegrated ? gun.Magazine.FireArm.ObjectWrapper.ItemID : gun.Magazine.ObjectWrapper.ItemID)).AppendLine()
 					.Append("│ Failure Rolled: ").Append(failure).AppendLine()
 					.Append("│  Random: ").Append(ran).AppendLine()
 					.Append("│  Chance: ").Append(chance).AppendLine()
@@ -147,21 +143,18 @@ namespace PBnJamming
 				Logger.LogDebug(builder);
 			}
 
-			// These base methods are run in Update() - use dumb lock to prevent spam for now
+			// These base methods are run in Update() - use dumb lock to prevent console spam for now
 			_extractFlag = false;
 			_lockFlag = false;
-			switch (failure)
+			if (failure == FailureType.Extract)
 			{
-				case (FailureType.Extract):
-					_extractFlag = true;
-					break;
-				case (FailureType.LockOpen):
-					_lockFlag = true;
-					break;
-				default:
-					break;
+				_extractFlag = true;
 			}
-
+			else if (failure == FailureType.LockOpen)
+			{
+				_lockFlag = true;
+			}
+			
 			return ran <= chance;
 		}
 
@@ -317,6 +310,22 @@ namespace PBnJamming
 			}
 
 			orig(self);
+		}
+
+		private void FVRFireArmChamber_SetRound(On.FistVR.FVRFireArmChamber.orig_SetRound orig, FVRFireArmChamber self, FVRFireArmRound round)
+		{
+			// TODO: make BoltActionRifle not render ProxyRound on feed failures
+			if ((self.Firearm is LeverActionFirearm || self.Firearm is BoltActionRifle) && round != null)
+			{
+				if (Failed(self.Firearm, m => m.Feed, FailureType.Feed))
+				{
+					// Add round that will be removed in UpdateLever or UpdateBolt
+					self.Firearm.Magazine.AddRound(round, false, true);
+					return;
+				}
+			}
+
+			orig(self, round);
 		}
 		#endregion
 
