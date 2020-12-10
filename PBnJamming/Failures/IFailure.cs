@@ -1,7 +1,7 @@
 using ADepIn;
 using FistVR;
 
-namespace PBnJamming
+namespace PBnJamming.Failures
 {
 	public interface IFailure
 	{

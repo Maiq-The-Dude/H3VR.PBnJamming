@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Text;
 using System;
 using System.Linq;
+using PBnJamming.Configs;
+using PBnJamming.Failures;
 
 namespace PBnJamming
 {
@@ -43,7 +45,7 @@ namespace PBnJamming
 
 			IFailure failure;
 			failure = new AverageFailure(CreateFailureLeafs().ToArray());
-			failure = new MultiplicativeFailure(failure, () => Configs.Multiplier.Mask / Configs.Weights.GlobalMask);
+			failure = new MultiplicativeFailure(failure, () => Configs.Multiplier.Mask / Configs.Failures.TotalWeight);
 
 			Failure = failure;
 
@@ -503,7 +505,7 @@ namespace PBnJamming
 		}
 		#endregion
 
-		private IFailure CreateFailureLeaf<TKey>(string name, Func<FailureLeafsConfig, FailureMaskConfig> config, Mapper<FVRFireArm, Option<TKey>> keyFromGun)
+		private IFailure CreateFailureLeaf<TKey>(string name, Func<FailureTypesConfig, FailureTypeConfig> config, Mapper<FVRFireArm, Option<TKey>> keyFromGun)
 		{
 			if (Module.Kernel.Get<IAssetReader<Option<Dictionary<TKey, FailureMask>>>>().IsNone)
 			{
@@ -516,8 +518,12 @@ namespace PBnJamming
 
 			IFailure failure;
 			failure = new DictFailure<TKey>(dict, keyFromGun);
-			failure = new FallbackFailure(failure, () => config(Configs.Fallbacks).Mask);
-			failure = new MultiplicativeFailure(failure, () => config(Configs.Weights).Mask);
+			failure = new FallbackFailure(failure, () =>
+			{
+				var mask = config(Configs.Failures).Fallback.Mask;
+				return mask == default ? Option.None<FailureMask>() : Option.Some(mask);
+			});
+			failure = new MultiplicativeFailure(failure, () => config(Configs.Failures).Weight.Mask);
 
 			return failure;
 		}

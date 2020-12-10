@@ -1,9 +1,12 @@
+using System;
 using Valve.Newtonsoft.Json;
 
-namespace PBnJamming
+namespace PBnJamming.Failures
 {
-	public readonly struct FailureMask
+	public readonly struct FailureMask : IEquatable<FailureMask>
 	{
+		public static FailureMask Unit { get; } = new FailureMask(1, 1, 1, 1, 1);
+
 		public readonly float Fire;
 		public readonly float Feed;
 		public readonly float Extract;
@@ -18,6 +21,11 @@ namespace PBnJamming
 			Extract = extract;
 			LockOpen = lockOpen;
 			Discharge = discharge;
+		}
+
+		public bool Equals(FailureMask other)
+		{
+			return Fire == other.Fire && Feed == other.Feed && Extract == other.Extract && LockOpen == other.LockOpen && Discharge == other.Discharge;
 		}
 
 		public static FailureMask operator +(FailureMask a, FailureMask b)
@@ -99,6 +107,16 @@ namespace PBnJamming
 		public static FailureMask operator /(float a, FailureMask b)
 		{
 			return b / a;
+		}
+
+		public static bool operator ==(FailureMask a, FailureMask b)
+		{
+			return a.Equals(b);
+		}
+
+		public static bool operator !=(FailureMask a, FailureMask b)
+		{
+			return !(a == b);
 		}
 	}
 }

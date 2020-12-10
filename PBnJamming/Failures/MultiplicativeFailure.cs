@@ -2,7 +2,7 @@ using System;
 using ADepIn;
 using FistVR;
 
-namespace PBnJamming
+namespace PBnJamming.Failures
 {
 	public class MultiplicativeFailure : IFailure
 	{

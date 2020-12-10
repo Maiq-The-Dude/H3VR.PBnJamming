@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ADepIn;
 using Deli;
+using PBnJamming.Failures;
 
 namespace PBnJamming
 {

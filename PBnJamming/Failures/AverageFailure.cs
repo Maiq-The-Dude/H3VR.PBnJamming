@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using ADepIn;
 using FistVR;
 
-namespace PBnJamming
+namespace PBnJamming.Failures
 {
 	public class AverageFailure : IFailure
 	{

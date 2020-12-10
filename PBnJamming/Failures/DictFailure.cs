@@ -2,7 +2,7 @@ using ADepIn;
 using FistVR;
 using System.Collections.Generic;
 
-namespace PBnJamming
+namespace PBnJamming.Failures
 {
 	public class DictFailure<TKey> : IFailure
 	{
