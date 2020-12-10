@@ -20,12 +20,7 @@ namespace PBnJamming
 
 			foreach (var failure in failures)
 			{
-				if (_allFailures.ContainsKey(failure.Key))
-				{
-					throw new InvalidOperationException("A dictionary entry was already present for " + failure.Key);
-				}
-
-				_allFailures.Add(failure.Key, failure.Value);
+				_allFailures[failure.Key] = failure.Value;
 			}
 		}
 	}

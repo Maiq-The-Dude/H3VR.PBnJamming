@@ -25,7 +25,7 @@ namespace PBnJamming
 			Feed,
 			Extract,
 			LockOpen,
-			AccDischarge
+			Discharge
 		}
 
 		private static Mapper<FVRFireArm, Option<TKey>> WrapperMapper<TKey>(Mapper<FVRObject, Option<TKey>> keyFromObject)
@@ -459,10 +459,10 @@ namespace PBnJamming
 		}
 		#endregion
 
-		#region AccDischarge
+		#region Discharge
 		private void HandgunSlide_SlideEvent_ArriveAtFore(On.FistVR.HandgunSlide.orig_SlideEvent_ArriveAtFore orig, HandgunSlide self)
 		{
-			if (Failed(self.Handgun, m => m.Slamfire, FailureType.AccDischarge))
+			if (Failed(self.Handgun, m => m.Discharge, FailureType.Discharge))
 			{
 				self.Handgun.ChamberRound();
 				self.Handgun.DropHammer(false);
@@ -473,7 +473,7 @@ namespace PBnJamming
 
 		private void ClosedBolt_BoltEvent_ArriveAtFore(On.FistVR.ClosedBolt.orig_BoltEvent_ArriveAtFore orig, ClosedBolt self)
 		{
-			if (Failed(self.Weapon, m => m.Slamfire, FailureType.AccDischarge))
+			if (Failed(self.Weapon, m => m.Discharge, FailureType.Discharge))
 			{
 				self.Weapon.ChamberRound();
 				self.Weapon.DropHammer();
@@ -484,7 +484,7 @@ namespace PBnJamming
 
 		private void TubeFedShotgunBolt_BoltEvent_ArriveAtFore(On.FistVR.TubeFedShotgunBolt.orig_BoltEvent_ArriveAtFore orig, TubeFedShotgunBolt self)
 		{
-			if (Failed(self.Shotgun, m => m.Slamfire, FailureType.AccDischarge))
+			if (Failed(self.Shotgun, m => m.Discharge, FailureType.Discharge))
 			{
 				self.Shotgun.ChamberRound();
 				self.Shotgun.ReleaseHammer();
@@ -495,7 +495,7 @@ namespace PBnJamming
 
 		private void OpenBoltReceiverBolt_BoltEvent_BoltCaught(On.FistVR.OpenBoltReceiverBolt.orig_BoltEvent_BoltCaught orig, OpenBoltReceiverBolt self)
 		{
-			if (Failed(self.Receiver, m => m.Slamfire, FailureType.AccDischarge))
+			if (Failed(self.Receiver, m => m.Discharge, FailureType.Discharge))
 			{
 				self.Receiver.ReleaseSeer();
 			}

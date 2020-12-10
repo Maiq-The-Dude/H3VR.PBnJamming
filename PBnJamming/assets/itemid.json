@@ -3,8 +3,8 @@
     "fire": 0.02,
     "feed": 0.02,
     "extract": 0.02,
-    "lockOpen":  0.02,
-    "accDischarge": 0.001
+    "lockOpen": 0.02,
+    "discharge": 0.001
   },
   "AK101": {},
   "AK12": {},
@@ -16,7 +16,12 @@
   "AK74N": {},
   "AKM": {},
   "AKMTactical": {},
-  "AKS74U": {},
+  "AKS74U": {
+    "fire": 0.1,
+    "feed": 0.05,
+    "extract": 0.05,
+    "discharge": 0.001
+  },
   "AKS74UTactical": {
     "fire": 0.05,
     "feed": 0.05,
@@ -94,7 +99,7 @@
     "fire": 0.01,
     "feed": 0.01,
     "extract": 0.05,
-    "accDischarge": 0.0001
+    "discharge": 0.0001
   },
   "FA83": {},
   "FabarmMarshall": {},
@@ -205,14 +210,14 @@
     "feed": 0.02,
     "extract": 0.05,
     "lockOpen": 0.10,
-    "accDischarge": 0.001
+    "discharge": 0.001
   },
   "M1911Classic": {
     "fire": 0.02,
     "feed": 0.02,
     "extract": 0.04,
     "lockOpen": 0.08,
-    "accDischarge": 0.0001
+    "discharge": 0.0001
   },
   "M1911Dillinger": {},
   "M1911Gold": {},
@@ -225,7 +230,7 @@
     "feed": 0.01,
     "extract": 0.01,
     "lockOpen": 0.01,
-    "accDischarge": 0.0001
+    "discharge": 0.0001
   },
   "M1911Stamped": {},
   "M1912": {},
@@ -319,7 +324,7 @@
     "feed": 0.05,
     "extract": 0.05,
     "lockOpen": 0.01,
-    "accDischarge": 0.0001
+    "discharge": 0.0001
   },
   "Mk22Hushpuppy": {},
   "Mk23": {},
@@ -487,7 +492,7 @@
     "fire": 0.01,
     "feed": 0.05,
     "extract": 0.05,
-    "accDischarge": 0.1
+    "discharge": 0.1
   },
   "ThompsonMk2": {},
   "ThrowbackSingleShot12g": {},

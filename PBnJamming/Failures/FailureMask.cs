@@ -8,16 +8,16 @@ namespace PBnJamming
 		public readonly float Feed;
 		public readonly float Extract;
 		public readonly float LockOpen;
-		public readonly float Slamfire;
+		public readonly float Discharge;
 
 		[JsonConstructor]
-		public FailureMask(float fire, float feed, float extract, float lockOpen, float slamfire)
+		public FailureMask(float fire, float feed, float extract, float lockOpen, float discharge)
 		{
 			Fire = fire;
 			Feed = feed;
 			Extract = extract;
 			LockOpen = lockOpen;
-			Slamfire = slamfire;
+			Discharge = discharge;
 		}
 
 		public static FailureMask operator +(FailureMask a, FailureMask b)
@@ -27,7 +27,7 @@ namespace PBnJamming
 				a.Feed + b.Feed,
 				a.Extract + b.Extract,
 				a.LockOpen + b.LockOpen,
-				a.Slamfire + b.Slamfire
+				a.Discharge + b.Discharge
 			);
 		}
 
@@ -38,7 +38,7 @@ namespace PBnJamming
 				a.Feed - b.Feed,
 				a.Extract - b.Extract,
 				a.LockOpen - b.LockOpen,
-				a.Slamfire - b.Slamfire
+				a.Discharge - b.Discharge
 			);
 		}
 
@@ -49,7 +49,7 @@ namespace PBnJamming
 				a.Feed * b.Feed,
 				a.Extract * b.Extract,
 				a.LockOpen * b.LockOpen,
-				a.Slamfire * b.Slamfire
+				a.Discharge * b.Discharge
 			);
 		}
 
@@ -60,7 +60,7 @@ namespace PBnJamming
 				a.Feed / b.Feed,
 				a.Extract / b.Extract,
 				a.LockOpen / b.LockOpen,
-				a.Slamfire / b.Slamfire
+				a.Discharge / b.Discharge
 			);
 		}
 
@@ -71,7 +71,7 @@ namespace PBnJamming
 				-a.Feed,
 				-a.Extract,
 				-a.LockOpen,
-				-a.Slamfire
+				-a.Discharge
 			);
 		}
 
@@ -82,7 +82,7 @@ namespace PBnJamming
 				a.Feed * b,
 				a.Extract * b,
 				a.LockOpen * b,
-				a.Slamfire * b
+				a.Discharge * b
 			);
 		}
 
