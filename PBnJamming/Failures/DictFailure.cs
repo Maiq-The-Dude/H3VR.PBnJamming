@@ -1,22 +1,20 @@
 using ADepIn;
-using Deli;
 using FistVR;
-using System;
 using System.Collections.Generic;
 
 namespace PBnJamming
 {
 	public class DictFailure<TKey> : IFailure
 	{
-		private readonly Dictionary<TKey, FailureMask> _allFailures;
-		private readonly Mapper<FVRFireArm, TKey> _keyFromGun;
+		private readonly Dictionary<TKey, FailureMask> _config;
+		private readonly Mapper<FVRFireArm, Option<TKey>> _keyFromGun;
 
-		public DictFailure(Dictionary<TKey, FailureMask> allFailures, Mapper<FVRFireArm, TKey> keyFromGun)
+		public DictFailure(Dictionary<TKey, FailureMask> config, Mapper<FVRFireArm, Option<TKey>> keyFromGun)
 		{
-			_allFailures = allFailures;
+			_config = config;
 			_keyFromGun = keyFromGun;
 		}
 
-		public FailureMask this[FVRFireArm gun] => _allFailures.OptionGetValue(_keyFromGun(gun)).UnwrapOr(default);
+		public Option<FailureMask> this[FVRFireArm gun] => _keyFromGun(gun).Map(_config.OptionGetValue).Flatten();
 	}
 }

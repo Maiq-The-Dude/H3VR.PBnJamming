@@ -5,6 +5,8 @@ using FistVR;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Text;
+using System;
+using System.Linq;
 
 namespace PBnJamming
 {
@@ -12,7 +14,7 @@ namespace PBnJamming
 	{
 		public IFailure Failure { get; }
 
-		public RootConfigs Configs { get; }
+		public RootConfig Configs { get; }
 
 		private bool _extractFlag;
 		private bool _lockFlag;
@@ -26,15 +28,24 @@ namespace PBnJamming
 			AccDischarge
 		}
 
+		private static Mapper<FVRFireArm, Option<TKey>> WrapperMapper<TKey>(Mapper<FVRObject, Option<TKey>> keyFromObject)
+		{
+			return v =>
+			{
+				var wrapper = v.ObjectWrapper;
+				return wrapper == null ? Option.None<TKey>() : keyFromObject(wrapper);
+			};
+		}
+
 		public Plugin()
 		{
-			Configs = new RootConfigs(Config);
+			Configs = new RootConfig(Config);
 
-			Failure = AddFailure("pbnj.magazine", g => (g.Magazine == null || g.Magazine.ObjectWrapper == null) ? "" : (g.Magazine.IsIntegrated ? g.Magazine.FireArm.ObjectWrapper.ItemID : g.Magazine.ObjectWrapper.ItemID))
-				.AddFailure("pbnj.roundtype", g => g.RoundType)
-				.AddFailure("pbnj.action", g => g.ObjectWrapper == null ? FVRObject.OTagFirearmAction.None : g.ObjectWrapper.TagFirearmAction)
-				.AddFailure("pbnj.era", g => g.ObjectWrapper == null ? FVRObject.OTagEra.None : g.ObjectWrapper.TagEra)
-				.AddFailure("pbnj.id", g => g.ObjectWrapper == null ? "" : g.ObjectWrapper.ItemID);
+			IFailure failure;
+			failure = new AverageFailure(CreateFailureLeafs().ToArray());
+			failure = new MultiplicativeFailure(failure, () => Configs.Multiplier.Mask / Configs.Weights.GlobalMask);
+
+			Failure = failure;
 
 			// Patches
 			On.FistVR.BreakActionWeapon.Awake += BreakActionWeapon_Awake;
@@ -75,6 +86,30 @@ namespace PBnJamming
 			On.FistVR.ClosedBolt.BoltEvent_ArriveAtFore += ClosedBolt_BoltEvent_ArriveAtFore;
 			On.FistVR.TubeFedShotgunBolt.BoltEvent_ArriveAtFore += TubeFedShotgunBolt_BoltEvent_ArriveAtFore;
 			On.FistVR.OpenBoltReceiverBolt.BoltEvent_BoltCaught += OpenBoltReceiverBolt_BoltEvent_BoltCaught;
+		}
+
+		private IEnumerable<IFailure> CreateFailureLeafs()
+		{
+			yield return CreateFailureLeaf("pbnj.action", c => c.Action, WrapperMapper(v => Option.Some(v.TagFirearmAction)));
+			yield return CreateFailureLeaf("pbnj.era", c => c.Era, WrapperMapper(v => Option.Some(v.TagEra)));
+			yield return CreateFailureLeaf("pbnj.id", c => c.ID, WrapperMapper(v => Option.Some(v.ItemID)));
+			yield return CreateFailureLeaf("pbnj.magazine", c => c.Magazine, g =>
+			{
+				var mag = g.Magazine;
+				if (mag == null)
+				{
+					return Option.None<string>();
+				}
+
+				var wrapper = mag.IsIntegrated ? mag.FireArm.ObjectWrapper : mag.ObjectWrapper;
+				if (wrapper == null)
+				{
+					return Option.None<string>();
+				}
+
+				return Option.Some(wrapper.ItemID);
+			});
+			yield return CreateFailureLeaf("pbnj.roundtype", c => c.RoundType, g => Option.Some(g.RoundType));
 		}
 
 		private void OnDestroy()
@@ -124,8 +159,9 @@ namespace PBnJamming
 		private bool Failed(FVRFireArm gun, Mapper<FailureMask, float> type, FailureType failure)
 		{
 			var ran = Random.Range(0f, 1f);
-			var chance = type(Failure[gun]) * Configs.Multiplier.Value;
-				
+			var mask = Failure[gun].Unwrap();
+			var chance = type(mask);
+
 			if (Configs.EnableLogging.Value && !_lockFlag && !_extractFlag)
 			{
 				var builder = new StringBuilder().AppendLine()
@@ -154,7 +190,7 @@ namespace PBnJamming
 			{
 				_lockFlag = true;
 			}
-			
+
 			return ran <= chance;
 		}
 
@@ -167,7 +203,7 @@ namespace PBnJamming
 
 		#endregion
 
-		#region Fire	
+		#region Fire
 		private bool ClosedBoltWeapon_Fire(On.FistVR.ClosedBoltWeapon.orig_Fire orig, ClosedBoltWeapon self)
 		{
 			if (Failed(self, m => m.Fire, FailureType.Fire))
@@ -426,7 +462,7 @@ namespace PBnJamming
 		#region AccDischarge
 		private void HandgunSlide_SlideEvent_ArriveAtFore(On.FistVR.HandgunSlide.orig_SlideEvent_ArriveAtFore orig, HandgunSlide self)
 		{
-			if (Failed(self.Handgun, m => m.AccDischarge, FailureType.AccDischarge))
+			if (Failed(self.Handgun, m => m.Slamfire, FailureType.AccDischarge))
 			{
 				self.Handgun.ChamberRound();
 				self.Handgun.DropHammer(false);
@@ -437,7 +473,7 @@ namespace PBnJamming
 
 		private void ClosedBolt_BoltEvent_ArriveAtFore(On.FistVR.ClosedBolt.orig_BoltEvent_ArriveAtFore orig, ClosedBolt self)
 		{
-			if (Failed(self.Weapon, m => m.AccDischarge, FailureType.AccDischarge))
+			if (Failed(self.Weapon, m => m.Slamfire, FailureType.AccDischarge))
 			{
 				self.Weapon.ChamberRound();
 				self.Weapon.DropHammer();
@@ -448,7 +484,7 @@ namespace PBnJamming
 
 		private void TubeFedShotgunBolt_BoltEvent_ArriveAtFore(On.FistVR.TubeFedShotgunBolt.orig_BoltEvent_ArriveAtFore orig, TubeFedShotgunBolt self)
 		{
-			if (Failed(self.Shotgun, m => m.AccDischarge, FailureType.AccDischarge))
+			if (Failed(self.Shotgun, m => m.Slamfire, FailureType.AccDischarge))
 			{
 				self.Shotgun.ChamberRound();
 				self.Shotgun.ReleaseHammer();
@@ -459,7 +495,7 @@ namespace PBnJamming
 
 		private void OpenBoltReceiverBolt_BoltEvent_BoltCaught(On.FistVR.OpenBoltReceiverBolt.orig_BoltEvent_BoltCaught orig, OpenBoltReceiverBolt self)
 		{
-			if (Failed(self.Receiver, m => m.AccDischarge, FailureType.AccDischarge))
+			if (Failed(self.Receiver, m => m.Slamfire, FailureType.AccDischarge))
 			{
 				self.Receiver.ReleaseSeer();
 			}
@@ -467,29 +503,23 @@ namespace PBnJamming
 		}
 		#endregion
 
-		public static IFailure AddFailure<TKey>(string name, Mapper<FVRFireArm, TKey> keyFromGun)
+		private IFailure CreateFailureLeaf<TKey>(string name, Func<FailureLeafsConfig, FailureMaskConfig> config, Mapper<FVRFireArm, Option<TKey>> keyFromGun)
 		{
 			if (Module.Kernel.Get<IAssetReader<Option<Dictionary<TKey, FailureMask>>>>().IsNone)
 			{
 				Module.Kernel.BindJson<Dictionary<TKey, FailureMask>>();
 			}
-			
-			var dict = new Dictionary<TKey, FailureMask>();
-			var failure = new DictFailure<TKey>(dict, keyFromGun);
-			var loader = new DictLoader<TKey>(dict);
 
+			var dict = new Dictionary<TKey, FailureMask>();
+			var loader = new DictLoader<TKey>(dict);
 			DeliFramework.AddAssetLoader(name, loader);
 
-			return failure;
-		}
-	}
+			IFailure failure;
+			failure = new DictFailure<TKey>(dict, keyFromGun);
+			failure = new FallbackFailure(failure, () => config(Configs.Fallbacks).Mask);
+			failure = new MultiplicativeFailure(failure, () => config(Configs.Weights).Mask);
 
-	internal static class ExtPlugin
-	{
-		public static IFailure AddFailure<TKey>(this IFailure inner, string name, Mapper<FVRFireArm, TKey> keyFromGun)
-		{
-			var weighted = Plugin.AddFailure<TKey>(name, keyFromGun);
-			return new WeightedSumFailure(weighted, inner);
+			return failure;
 		}
 	}
 }

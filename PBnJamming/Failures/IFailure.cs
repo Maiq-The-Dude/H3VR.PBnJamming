@@ -1,9 +1,10 @@
+using ADepIn;
 using FistVR;
 
 namespace PBnJamming
 {
 	public interface IFailure
 	{
-		FailureMask this[FVRFireArm gun] { get; }
+		Option<FailureMask> this[FVRFireArm gun] { get; }
 	}
 }
