@@ -30,7 +30,7 @@ A WIP firearm malfunction mod inspired by [Meatyceiver 2](https://github.com/pot
   - feed
   - extract
   - lockOpen
-  - accDischarge
+  - discharge
   
 ## Installation
 No releases available yet. To install you must build the project yourself and place into `mods` folder as this is a Deli mod.
