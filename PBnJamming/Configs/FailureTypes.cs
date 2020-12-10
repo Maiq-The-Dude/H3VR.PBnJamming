@@ -8,28 +8,27 @@ using PBnJamming.Failures;
 
 namespace PBnJamming.Configs
 {
-	public class FailureTypesConfig : IEnumerable<FailureTypeConfig>, IDisposable
+	public class FailureTypesConfig
 	{
 		private static class Defaults
 		{
-			public static readonly FailureLeafMask ID = new FailureLeafMask(FailureMask.Unit, default);
-			public static readonly FailureLeafMask Era = new FailureLeafMask(FailureMask.Unit * 0.3f, default);
-			public static readonly FailureLeafMask Magazine = new FailureLeafMask(FailureMask.Unit * 0.7f, new FailureMask(0, 0.05f, 0.025f, 0, 0));
-			public static readonly FailureLeafMask Action = new FailureLeafMask(FailureMask.Unit * 0.4f, default);
-			public static readonly FailureLeafMask RoundType = new FailureLeafMask(FailureMask.Unit * 0.2f, default);
+			// Really shouldn't make generalizations about an attribute that's unique to every firearm...
+			public static readonly FailureMask ID = default;
+			// Nothing here that the bottom 3 don't cover.
+			public static readonly FailureMask Era = default;
+			// Magazines are the thing that feeds, so it makes sense to fail-by-default here.
+			public static readonly FailureMask Magazine = new FailureMask(0, 0.05f, 0, 0, 0);
+			// Mechanicals have a lot to do with every failure.
+			public static readonly FailureMask Action = new FailureMask(0.005f, 0.025f, 0.05f, 0.01f, 0.005f);
+			// Round type is very insignificant, but could have a small amount of impact.
+			public static readonly FailureMask RoundType = new FailureMask(0.001f, 0, 0, 0, 0);
 		}
-
-		private Option<FailureMask> _totalWeight;
 
 		public FailureTypeConfig ID { get; }
 		public FailureTypeConfig Era { get; }
 		public FailureTypeConfig Magazine { get; }
 		public FailureTypeConfig Action { get; }
 		public FailureTypeConfig RoundType { get; }
-
-		public FailureMask TotalWeight => _totalWeight.GetOrInsertWith(RecalculateTotalWeight);
-
-		public event Action UpdatedTotalWeight;
 
 		public FailureTypesConfig(string section, ConfigFile config)
 		{
@@ -38,47 +37,6 @@ namespace PBnJamming.Configs
 			Magazine = new FailureTypeConfig(section + "." + nameof(Magazine), config, Defaults.Magazine);
 			Action = new FailureTypeConfig(section + "." + nameof(Action), config, Defaults.Action);
 			RoundType = new FailureTypeConfig(section + "." + nameof(RoundType), config, Defaults.RoundType);
-
-			ID.Weight.Updated += SettingRecalculateTotalWeight;
-			Era.Weight.Updated += SettingRecalculateTotalWeight;
-			Magazine.Weight.Updated += SettingRecalculateTotalWeight;
-			Action.Weight.Updated += SettingRecalculateTotalWeight;
-			RoundType.Weight.Updated += SettingRecalculateTotalWeight;
-		}
-
-		public void Dispose()
-		{
-			ID.Weight.Updated -= SettingRecalculateTotalWeight;
-			Era.Weight.Updated -= SettingRecalculateTotalWeight;
-			Magazine.Weight.Updated -= SettingRecalculateTotalWeight;
-			Action.Weight.Updated -= SettingRecalculateTotalWeight;
-			RoundType.Weight.Updated -= SettingRecalculateTotalWeight;
-		}
-
-		private FailureMask RecalculateTotalWeight()
-		{
-			return this.Aggregate(default(FailureMask), (p, c) => p + c.Weight.Mask);
-		}
-
-		private void SettingRecalculateTotalWeight()
-		{
-			_totalWeight.Replace(RecalculateTotalWeight());
-
-			UpdatedTotalWeight?.Invoke();
-		}
-
-		public IEnumerator<FailureTypeConfig> GetEnumerator()
-		{
-			yield return ID;
-			yield return Era;
-			yield return Magazine;
-			yield return Action;
-			yield return RoundType;
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
 		}
 	}
 }

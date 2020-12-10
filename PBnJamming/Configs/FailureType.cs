@@ -1,16 +1,17 @@
 using BepInEx.Configuration;
+using PBnJamming.Failures;
 
 namespace PBnJamming.Configs
 {
 	public class FailureTypeConfig
 	{
+		public FailureMaskConfig Multiplier { get; }
 		public FailureMaskConfig Fallback { get; }
-		public FailureMaskConfig Weight { get; }
 
-		public FailureTypeConfig(string section, ConfigFile config, FailureLeafMask defaults)
+		public FailureTypeConfig(string section, ConfigFile config, FailureMask fallback)
 		{
-			Fallback = new FailureMaskConfig(section + "." + nameof(Fallback), config, defaults.Fallback);
-			Weight = new FailureMaskConfig(section + "." + nameof(Weight), config, defaults.Weight);
+			Multiplier = new FailureMaskConfig(section + "." + nameof(Multiplier), config, FailureMask.Unit);
+			Fallback = new FailureMaskConfig(section + "." + nameof(Multiplier), config, fallback);
 		}
 	}
 }

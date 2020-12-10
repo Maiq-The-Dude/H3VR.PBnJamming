@@ -39,13 +39,37 @@ namespace PBnJamming
 			};
 		}
 
+		private IEnumerable<IFailure> CreateFailureLeafs()
+		{
+			yield return CreateFailureLeaf("pbnj.action", c => c.Action, WrapperMapper(v => Option.Some(v.TagFirearmAction)));
+			yield return CreateFailureLeaf("pbnj.era", c => c.Era, WrapperMapper(v => Option.Some(v.TagEra)));
+			yield return CreateFailureLeaf("pbnj.id", c => c.ID, WrapperMapper(v => Option.Some(v.ItemID)));
+			yield return CreateFailureLeaf("pbnj.magazine", c => c.Magazine, g =>
+			{
+				var mag = g.Magazine;
+				if (mag == null)
+				{
+					return Option.None<string>();
+				}
+
+				var wrapper = mag.IsIntegrated ? mag.FireArm.ObjectWrapper : mag.ObjectWrapper;
+				if (wrapper == null)
+				{
+					return Option.None<string>();
+				}
+
+				return Option.Some(wrapper.ItemID);
+			});
+			yield return CreateFailureLeaf("pbnj.roundtype", c => c.RoundType, g => Option.Some(g.RoundType));
+		}
+
 		public Plugin()
 		{
 			Configs = new RootConfig(Config);
 
 			IFailure failure;
-			failure = new AverageFailure(CreateFailureLeafs().ToArray());
-			failure = new MultiplicativeFailure(failure, () => Configs.Multiplier.Mask / Configs.Failures.TotalWeight);
+			failure = new SumFailure(CreateFailureLeafs().ToArray());
+			failure = new MultiplicativeFailure(failure, () => Configs.GlobalMultiplier.Mask);
 
 			Failure = failure;
 
@@ -90,30 +114,6 @@ namespace PBnJamming
 			On.FistVR.OpenBoltReceiverBolt.BoltEvent_BoltCaught += OpenBoltReceiverBolt_BoltEvent_BoltCaught;
 		}
 
-		private IEnumerable<IFailure> CreateFailureLeafs()
-		{
-			yield return CreateFailureLeaf("pbnj.action", c => c.Action, WrapperMapper(v => Option.Some(v.TagFirearmAction)));
-			yield return CreateFailureLeaf("pbnj.era", c => c.Era, WrapperMapper(v => Option.Some(v.TagEra)));
-			yield return CreateFailureLeaf("pbnj.id", c => c.ID, WrapperMapper(v => Option.Some(v.ItemID)));
-			yield return CreateFailureLeaf("pbnj.magazine", c => c.Magazine, g =>
-			{
-				var mag = g.Magazine;
-				if (mag == null)
-				{
-					return Option.None<string>();
-				}
-
-				var wrapper = mag.IsIntegrated ? mag.FireArm.ObjectWrapper : mag.ObjectWrapper;
-				if (wrapper == null)
-				{
-					return Option.None<string>();
-				}
-
-				return Option.Some(wrapper.ItemID);
-			});
-			yield return CreateFailureLeaf("pbnj.roundtype", c => c.RoundType, g => Option.Some(g.RoundType));
-		}
-
 		private void OnDestroy()
 		{
 			// Patches
@@ -156,6 +156,29 @@ namespace PBnJamming
 			On.FistVR.ClosedBolt.BoltEvent_ArriveAtFore -= ClosedBolt_BoltEvent_ArriveAtFore;
 			On.FistVR.TubeFedShotgunBolt.BoltEvent_ArriveAtFore -= TubeFedShotgunBolt_BoltEvent_ArriveAtFore;
 			On.FistVR.OpenBoltReceiverBolt.BoltEvent_BoltCaught -= OpenBoltReceiverBolt_BoltEvent_BoltCaught;
+		}
+
+		private IFailure CreateFailureLeaf<TKey>(string name, Func<FailureTypesConfig, FailureTypeConfig> config, Mapper<FVRFireArm, Option<TKey>> keyFromGun)
+		{
+			if (Module.Kernel.Get<IAssetReader<Option<Dictionary<TKey, FailureMask>>>>().IsNone)
+			{
+				Module.Kernel.BindJson<Dictionary<TKey, FailureMask>>();
+			}
+
+			var dict = new Dictionary<TKey, FailureMask>();
+			var loader = new DictLoader<TKey>(dict);
+			DeliFramework.AddAssetLoader(name, loader);
+
+			IFailure failure;
+			failure = new DictFailure<TKey>(dict, keyFromGun);
+			failure = new FallbackFailure(failure, () =>
+			{
+				var mask = config(Configs.Failures).Fallback.Mask;
+				return mask == default ? Option.None<FailureMask>() : Option.Some(mask);
+			});
+			failure = new MultiplicativeFailure(failure, () => config(Configs.Failures).Multiplier.Mask);
+
+			return failure;
 		}
 
 		private bool Failed(FVRFireArm gun, Mapper<FailureMask, float> type, FailureType failure)
@@ -504,28 +527,5 @@ namespace PBnJamming
 			orig(self);
 		}
 		#endregion
-
-		private IFailure CreateFailureLeaf<TKey>(string name, Func<FailureTypesConfig, FailureTypeConfig> config, Mapper<FVRFireArm, Option<TKey>> keyFromGun)
-		{
-			if (Module.Kernel.Get<IAssetReader<Option<Dictionary<TKey, FailureMask>>>>().IsNone)
-			{
-				Module.Kernel.BindJson<Dictionary<TKey, FailureMask>>();
-			}
-
-			var dict = new Dictionary<TKey, FailureMask>();
-			var loader = new DictLoader<TKey>(dict);
-			DeliFramework.AddAssetLoader(name, loader);
-
-			IFailure failure;
-			failure = new DictFailure<TKey>(dict, keyFromGun);
-			failure = new FallbackFailure(failure, () =>
-			{
-				var mask = config(Configs.Failures).Fallback.Mask;
-				return mask == default ? Option.None<FailureMask>() : Option.Some(mask);
-			});
-			failure = new MultiplicativeFailure(failure, () => config(Configs.Failures).Weight.Mask);
-
-			return failure;
-		}
 	}
 }

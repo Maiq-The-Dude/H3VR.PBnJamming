@@ -14,7 +14,7 @@ namespace PBnJamming.Configs
 		public ConfigEntry<float> Discharge { get; }
 
 		private Option<FailureMask> _mask;
-		public FailureMask Mask => _mask.GetOrInsertWith(Recalculate);
+		public FailureMask Mask => _mask.GetOrInsertWith(Recombine);
 
 		public event Action Updated;
 
@@ -29,30 +29,30 @@ namespace PBnJamming.Configs
 			LockOpen = config.Bind(section, nameof(LockOpen), @default.LockOpen, prefix + "lock the bolt open" + suffix);
 			Discharge = config.Bind(section, nameof(Discharge), @default.Discharge, prefix + "accidential discharge" + suffix);
 
-			Fire.SettingChanged += SettingRecalculate;
-			Feed.SettingChanged += SettingRecalculate;
-			Extract.SettingChanged += SettingRecalculate;
-			LockOpen.SettingChanged += SettingRecalculate;
-			Discharge.SettingChanged += SettingRecalculate;
+			Fire.SettingChanged += RecombineViaConfig;
+			Feed.SettingChanged += RecombineViaConfig;
+			Extract.SettingChanged += RecombineViaConfig;
+			LockOpen.SettingChanged += RecombineViaConfig;
+			Discharge.SettingChanged += RecombineViaConfig;
 		}
 
 		public void Dispose()
 		{
-			Fire.SettingChanged -= SettingRecalculate;
-			Feed.SettingChanged -= SettingRecalculate;
-			Extract.SettingChanged -= SettingRecalculate;
-			LockOpen.SettingChanged -= SettingRecalculate;
-			Discharge.SettingChanged -= SettingRecalculate;
+			Fire.SettingChanged -= RecombineViaConfig;
+			Feed.SettingChanged -= RecombineViaConfig;
+			Extract.SettingChanged -= RecombineViaConfig;
+			LockOpen.SettingChanged -= RecombineViaConfig;
+			Discharge.SettingChanged -= RecombineViaConfig;
 		}
 
-		private void SettingRecalculate(object sender, EventArgs e)
+		private void RecombineViaConfig(object sender, EventArgs e)
 		{
-			_mask.Replace(Recalculate());
+			_mask.Replace(Recombine());
 
 			Updated?.Invoke();
 		}
 
-		private FailureMask Recalculate()
+		private FailureMask Recombine()
 		{
 			return new FailureMask(Fire.Value, Feed.Value, Extract.Value, LockOpen.Value, Discharge.Value);
 		}
