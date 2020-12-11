@@ -23,10 +23,16 @@ namespace PBnJamming.Failures
 			Discharge = discharge;
 		}
 
-		public bool Equals(FailureMask other)
-		{
-			return Fire == other.Fire && Feed == other.Feed && Extract == other.Extract && LockOpen == other.LockOpen && Discharge == other.Discharge;
-		}
+		public float this[FailureType type] =>
+			type switch
+			{
+				FailureType.Fire => Fire,
+				FailureType.Feed => Feed,
+				FailureType.Extract => Extract,
+				FailureType.LockOpen => LockOpen,
+				FailureType.Discharge => Discharge,
+				_ => throw new ArgumentOutOfRangeException()
+			};
 
 		public static FailureMask operator +(FailureMask a, FailureMask b)
 		{
@@ -107,6 +113,29 @@ namespace PBnJamming.Failures
 		public static FailureMask operator /(float a, FailureMask b)
 		{
 			return b / a;
+		}
+
+		public bool Equals(FailureMask other)
+		{
+			return Fire == other.Fire && Feed == other.Feed && Extract == other.Extract && LockOpen == other.LockOpen && Discharge == other.Discharge;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is FailureMask other && Equals(other);
+		}
+
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				var hashCode = Fire.GetHashCode();
+				hashCode = (hashCode * 397) ^ Feed.GetHashCode();
+				hashCode = (hashCode * 397) ^ Extract.GetHashCode();
+				hashCode = (hashCode * 397) ^ LockOpen.GetHashCode();
+				hashCode = (hashCode * 397) ^ Discharge.GetHashCode();
+				return hashCode;
+			}
 		}
 
 		public static bool operator ==(FailureMask a, FailureMask b)
