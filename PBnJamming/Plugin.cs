@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using PBnJamming.Configs;
 using PBnJamming.Failures;
+using UnityEngine.SceneManagement;
+using System;
 
 namespace PBnJamming
 {
@@ -32,12 +34,21 @@ namespace PBnJamming
 			tree = new MultiplicativeFailure(tree, () => _config.GlobalMultiplier.Mask);
 
 			_patches = new Patches(Logger, tree, _config);
+
+			SceneManager.activeSceneChanged += SceneChanged;
 		}
 
 		private void OnDestroy()
 		{
+			SceneManager.activeSceneChanged -= SceneChanged;
+
 			_config?.Dispose();
 			_patches?.Dispose();
+		}
+
+		private void SceneChanged(Scene current, Scene next)
+		{
+			Config.Reload();
 		}
 
 		private IEnumerable<IFailure> CreateFailureLeafs()

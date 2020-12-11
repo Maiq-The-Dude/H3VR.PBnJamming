@@ -366,3 +366,6 @@ FodyWeavers.xsd
 
 # Game symlink
 /game
+
+# JetBrains Rider
+.idea/
