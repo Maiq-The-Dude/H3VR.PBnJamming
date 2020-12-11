@@ -61,7 +61,7 @@ namespace PBnJamming
 
 				return Option.Some(wrapper.ItemID);
 			});
-			yield return CreateFailureLeaf("pbnj.roundtype", FailureSource.RoundType, g => Option.Some(g.RoundType));
+			yield return CreateFailureLeaf("roundtype", FailureSource.RoundType, g => Option.Some(g.RoundType));
 		}
 
 		private IFailure CreateFailureLeaf<TKey>(string name, FailureSource source, Mapper<FVRFireArm, Option<TKey>> keyFromGun)
