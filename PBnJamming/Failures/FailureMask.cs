@@ -7,11 +7,11 @@ namespace PBnJamming.Failures
 	{
 		public static FailureMask Unit { get; } = new FailureMask(1, 1, 1, 1, 1);
 
-		public readonly float Fire;
-		public readonly float Feed;
-		public readonly float Extract;
-		public readonly float LockOpen;
-		public readonly float Discharge;
+		public float Fire { get; }
+		public float Feed { get; }
+		public float Extract { get; }
+		public float LockOpen { get; }
+		public float Discharge { get; }
 
 		[JsonConstructor]
 		public FailureMask(float fire, float feed, float extract, float lockOpen, float discharge)
