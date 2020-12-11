@@ -12,7 +12,7 @@ namespace PBnJamming.Configs
 		public FailureSourceConfig(string section, ConfigFile config, FailureMask fallback)
 		{
 			Multiplier = new FailureMaskConfig(section + "." + nameof(Multiplier), config, FailureMask.Unit);
-			Fallback = new FailureMaskConfig(section + "." + nameof(Multiplier), config, fallback);
+			Fallback = new FailureMaskConfig(section + "." + nameof(Fallback), config, fallback);
 		}
 
 		public void Dispose()
