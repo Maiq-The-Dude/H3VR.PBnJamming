@@ -312,12 +312,11 @@ namespace PBnJamming
 
 		private void FVRFireArmChamber_SetRound(On.FistVR.FVRFireArmChamber.orig_SetRound orig, FVRFireArmChamber self, FVRFireArmRound round)
 		{
-			// TODO: make BoltActionRifle not render ProxyRound on feed failures
-			if ((self.Firearm is LeverActionFirearm || self.Firearm is BoltActionRifle) && round != null)
+			if ((self.Firearm is LeverActionFirearm ) && round != null)
 			{
 				if (Failed(self, FailureType.Feed))
 				{
-					// Add round that will be removed in UpdateLever or UpdateBolt
+					// Add round that will be removed in UpdateLever
 					self.Firearm.Magazine.AddRound(round, false, true);
 					return;
 				}
