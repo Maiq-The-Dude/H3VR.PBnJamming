@@ -24,7 +24,7 @@ A WIP firearm malfunction mod inspired by [Meatyceiver 2](https://github.com/pot
   - TubeFedShotgun  
   
 ## Configuration
-- Default firearm tags are configured under the [`assets`](https://github.com/Maiq-The-Dude/PBnJamming/tree/main/PBnJamming/assets) folder. 
+- Default firearm tags are configured under the [`failures`](https://github.com/Maiq-The-Dude/PBnJamming/tree/main/mod/failures) folder. 
 - Each firearm tag (currently) supports five malfunction properties, each containing a float used as its weighted chance value.
 - Malfunction properties:
   - fire
