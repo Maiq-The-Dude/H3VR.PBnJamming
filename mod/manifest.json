@@ -14,10 +14,11 @@
   },
   "runtime": {
     "PBnJamming.dll": "assembly",
-    "assets/itemid.json": "pbnj.id",
-    "assets/era.json": "pbnj.era",
-    "assets/action.json": "pbnj.action",
-    "assets/roundtype.json": "pbnj.roundtype",
-    "assets/magazine.json":  "pbnj.magazine"
+    "failures/action.json": "pbnj.action",
+    "failures/era.json": "pbnj.era",
+    "failures/itemid.json": "pbnj.id",
+    "failures/magazine.json":  "pbnj.magazine",
+    "failures/round/class.json":  "pbnj.round.class",
+    "failures/round/type.json": "pbnj.round.type"
   }
 }

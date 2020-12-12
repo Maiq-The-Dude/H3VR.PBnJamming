@@ -7,17 +7,16 @@ using System.Linq;
 using PBnJamming.Configs;
 using PBnJamming.Failures;
 using UnityEngine.SceneManagement;
-using System;
 
 namespace PBnJamming
 {
 	internal class Plugin : DeliBehaviour
 	{
-		private static Mapper<FVRFireArm, Option<TKey>> WrapperMapper<TKey>(Mapper<FVRObject, Option<TKey>> keyFromObject)
+		private static Mapper<FVRFireArmChamber, Option<TKey>> WrapperMapper<TKey>(Mapper<FVRObject, Option<TKey>> keyFromObject)
 		{
 			return v =>
 			{
-				var wrapper = v.ObjectWrapper;
+				var wrapper = v.Firearm.ObjectWrapper;
 				return wrapper == null ? Option.None<TKey>() : keyFromObject(wrapper);
 			};
 		}
@@ -33,7 +32,7 @@ namespace PBnJamming
 			tree = new SumFailure(CreateFailureLeafs().ToArray());
 			tree = new MultiplicativeFailure(tree, () => _config.GlobalMultiplier.Mask);
 
-			_patches = new Patches(Logger, tree, _config);
+			_patches = new Patches(Logger, tree, _config.Log.Fires);
 
 			SceneManager.activeSceneChanged += SceneChanged;
 		}
@@ -56,9 +55,9 @@ namespace PBnJamming
 			yield return CreateFailureLeaf("action", FailureSource.Action, WrapperMapper(v => Option.Some(v.TagFirearmAction)));
 			yield return CreateFailureLeaf("era", FailureSource.Era, WrapperMapper(v => Option.Some(v.TagEra)));
 			yield return CreateFailureLeaf("id", FailureSource.ID, WrapperMapper(v => Option.Some(v.ItemID)));
-			yield return CreateFailureLeaf("magazine", FailureSource.Magazine, g =>
+			yield return CreateFailureLeaf("magazine", FailureSource.Magazine, c =>
 			{
-				var mag = g.Magazine;
+				var mag = c.Firearm.Magazine;
 				if (mag == null)
 				{
 					return Option.None<string>();
@@ -72,10 +71,11 @@ namespace PBnJamming
 
 				return Option.Some(wrapper.ItemID);
 			});
-			yield return CreateFailureLeaf("roundtype", FailureSource.RoundType, g => Option.Some(g.RoundType));
+			yield return CreateFailureLeaf("round.class", FailureSource.RoundClass, c => Option.Some(c.m_round.RoundClass));
+			yield return CreateFailureLeaf("round.type", FailureSource.RoundType, c => Option.Some(c.m_round.RoundType));
 		}
 
-		private IFailure CreateFailureLeaf<TKey>(string name, FailureSource source, Mapper<FVRFireArm, Option<TKey>> keyFromGun)
+		private IFailure CreateFailureLeaf<TKey>(string name, FailureSource source, Mapper<FVRFireArmChamber, Option<TKey>> keyFromChamber)
 		{
 			// Add to Deli loaders
 			if (Module.Kernel.Get<IAssetReader<Option<Dictionary<TKey, FailureMask>>>>().IsNone)
@@ -91,7 +91,8 @@ namespace PBnJamming
 			var sourceConfig = _config.Failures[source];
 
 			IFailure failure;
-			failure = new DictFailure<TKey>(dict, keyFromGun);
+			failure = new DictionaryFailure<TKey>(dict, keyFromChamber);
+			failure = new LogFailure(failure, Logger, _config.Log.Sources, name);
 			failure = new FallbackFailure(failure, () =>
 			{
 				var mask = sourceConfig.Fallback.Mask;

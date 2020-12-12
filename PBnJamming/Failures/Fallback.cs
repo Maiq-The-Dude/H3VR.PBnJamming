@@ -15,6 +15,6 @@ namespace PBnJamming.Failures
 			_fallback = fallback;
 		}
 
-		public Option<FailureMask> this[FVRFireArm gun] => _inner[gun].Or(_fallback());
+		public Option<FailureMask> this[FVRFireArmChamber chamber] => _inner[chamber].Or(_fallback());
 	}
 }

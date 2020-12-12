@@ -6,15 +6,13 @@ namespace PBnJamming.Configs
 {
 	public class RootConfig : IDisposable
 	{
-		public ConfigEntry<bool> EnableLogging { get; }
-
+		public LogConfig Log { get; }
 		public FailureMaskConfig GlobalMultiplier { get; }
 		public FailureSourcesConfig Failures { get; }
 
 		public RootConfig(ConfigFile config)
 		{
-			EnableLogging = config.Bind("General Settings", nameof(EnableLogging), false, "Enable Console Logging");
-
+			Log = new LogConfig(nameof(Log), config);
 			GlobalMultiplier = new FailureMaskConfig(nameof(GlobalMultiplier), config, FailureMask.Unit);
 			Failures = new FailureSourcesConfig(nameof(Failures), config);
 		}

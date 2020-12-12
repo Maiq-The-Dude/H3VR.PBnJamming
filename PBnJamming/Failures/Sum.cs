@@ -13,7 +13,7 @@ namespace PBnJamming.Failures
 			_failures = failures;
 		}
 
-		public Option<FailureMask> this[FVRFireArm gun]
+		public Option<FailureMask> this[FVRFireArmChamber chamber]
 		{
 			get
 			{
@@ -21,7 +21,7 @@ namespace PBnJamming.Failures
 				var result = Option.None<FailureMask>();
 				foreach (var failure in _failures)
 				{
-					var maskOpt = failure[gun];
+					var maskOpt = failure[chamber];
 					if (!maskOpt.MatchSome(out var mask))
 					{
 						continue;

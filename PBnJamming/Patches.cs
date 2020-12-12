@@ -1,9 +1,8 @@
 using System;
 using System.Text;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using FistVR;
-using PBnJamming.Configs;
-using PBnJamming.Failures;
 using Random = UnityEngine.Random;
 
 namespace PBnJamming
@@ -12,12 +11,12 @@ namespace PBnJamming
 	{
 		private readonly ManualLogSource _logger;
 		private readonly IFailure _tree;
-		private readonly RootConfig _config;
+		private readonly ConfigEntry<bool> _config;
 
 		private bool _extractFlag;
 		private bool _lockFlag;
 
-		public Patches(ManualLogSource logger, IFailure tree, RootConfig config)
+		public Patches(ManualLogSource logger, IFailure tree, ConfigEntry<bool> config)
 		{
 			_logger = logger;
 			_tree = tree;
@@ -52,8 +51,6 @@ namespace PBnJamming
 			// Feed
 			On.FistVR.ClosedBoltWeapon.BeginChamberingRound += ClosedBoltWeapon_BeginChamberingRound;
 			On.FistVR.OpenBoltReceiver.BeginChamberingRound += OpenBoltReceiver_BeginChamberingRound;
-			On.FistVR.Handgun.ExtractRound += Handgun_ExtractRound;
-			On.FistVR.TubeFedShotgun.ExtractRound += TubeFedShotgun_ExtractRound;
 			On.FistVR.FVRFireArmChamber.SetRound += FVRFireArmChamber_SetRound;	// LeverActionFirearm & BoltActionRifle
 
 			// Extract
@@ -62,7 +59,6 @@ namespace PBnJamming
 			On.FistVR.HandgunSlide.ImpartFiringImpulse += HandgunSlide_ImpartFiringImpulse;
 			On.FistVR.TubeFedShotgun.EjectExtractedRound += TubeFedShotgun_EjectExtractedRound;
 			On.FistVR.BreakActionWeapon.PopOutRound += BreakActionWeapon_PopOutRound;
-			On.FistVR.BreakActionWeapon.PopOutEmpties += BreakActionWeapon_PopOutEmpties;
 
 			// LockOpen
 			On.FistVR.Handgun.EngageSlideRelease += Handgun_EngageSlideRelease;
@@ -94,9 +90,6 @@ namespace PBnJamming
 			// Feed
 			On.FistVR.ClosedBoltWeapon.BeginChamberingRound -= ClosedBoltWeapon_BeginChamberingRound;
 			On.FistVR.OpenBoltReceiver.BeginChamberingRound -= OpenBoltReceiver_BeginChamberingRound;
-			On.FistVR.Handgun.ExtractRound -= Handgun_ExtractRound;
-			On.FistVR.TubeFedShotgun.ExtractRound -= TubeFedShotgun_ExtractRound;
-			On.FistVR.BreakActionWeapon.PopOutEmpties -= BreakActionWeapon_PopOutEmpties;
 			On.FistVR.FVRFireArmChamber.SetRound -= FVRFireArmChamber_SetRound;
 
 			// Extract
@@ -105,7 +98,6 @@ namespace PBnJamming
 			On.FistVR.HandgunSlide.ImpartFiringImpulse -= HandgunSlide_ImpartFiringImpulse;
 			On.FistVR.TubeFedShotgun.EjectExtractedRound -= TubeFedShotgun_EjectExtractedRound;
 			On.FistVR.BreakActionWeapon.PopOutRound -= BreakActionWeapon_PopOutRound;
-			On.FistVR.BreakActionWeapon.PopOutEmpties -= BreakActionWeapon_PopOutEmpties;
 
 			// LockOpen
 			On.FistVR.Handgun.EngageSlideRelease -= Handgun_EngageSlideRelease;
@@ -120,14 +112,15 @@ namespace PBnJamming
 
 		#endregion
 
-		private bool Failed(FVRFireArm gun, FailureType failure)
+		private bool Failed(FVRFireArmChamber chamber, FailureType failure)
 		{
 			var ran = Random.value;
-			var mask = _tree[gun].Unwrap();
+			var mask = _tree[chamber].Unwrap();
 			var chance = mask[failure];
 
-			if (_config.EnableLogging.Value && !_lockFlag && !_extractFlag)
+			if (_config.Value && !_lockFlag && !_extractFlag)
 			{
+				var gun = chamber.Firearm;
 				var builder = new StringBuilder().AppendLine()
 					.Append("┌─────Failure Roll Report─────").AppendLine()
 					.Append("│ ItemID: ").Append(gun.ObjectWrapper == null ? "" : gun.ObjectWrapper.ItemID).AppendLine()
@@ -171,7 +164,8 @@ namespace PBnJamming
 
 		private bool ClosedBoltWeapon_Fire(On.FistVR.ClosedBoltWeapon.orig_Fire orig, ClosedBoltWeapon self)
 		{
-			if (Failed(self, FailureType.Fire))
+
+			if (Failed(self.Chamber, FailureType.Fire))
 			{
 				return false;
 			}
@@ -181,7 +175,7 @@ namespace PBnJamming
 
 		private bool OpenBoltReceiver_Fire(On.FistVR.OpenBoltReceiver.orig_Fire orig, OpenBoltReceiver self)
 		{
-			if (Failed(self, FailureType.Fire))
+			if (Failed(self.Chamber, FailureType.Fire))
 			{
 				return false;
 			}
@@ -191,7 +185,7 @@ namespace PBnJamming
 
 		private bool Handgun_Fire(On.FistVR.Handgun.orig_Fire orig, Handgun self)
 		{
-			if (Failed(self, FailureType.Fire))
+			if (Failed(self.Chamber, FailureType.Fire))
 			{
 				return false;
 			}
@@ -201,7 +195,7 @@ namespace PBnJamming
 
 		private bool TubeFedShotgun_Fire(On.FistVR.TubeFedShotgun.orig_Fire orig, TubeFedShotgun self)
 		{
-			if (Failed(self, FailureType.Fire))
+			if (Failed(self.Chamber, FailureType.Fire))
 			{
 				return false;
 			}
@@ -211,7 +205,7 @@ namespace PBnJamming
 
 		private void Revolver_Fire(On.FistVR.Revolver.orig_Fire orig, Revolver self)
 		{
-			if (Failed(self, FailureType.Fire))
+			if (Failed(self.Chambers[self.CurChamber], FailureType.Fire))
 			{
 				return;
 			}
@@ -221,7 +215,7 @@ namespace PBnJamming
 
 		private void RevolvingShotgun_Fire(On.FistVR.RevolvingShotgun.orig_Fire orig, RevolvingShotgun self)
 		{
-			if (Failed(self, FailureType.Fire))
+			if (Failed(self.Chambers[self.CurChamber], FailureType.Fire))
 			{
 				return;
 			}
@@ -231,7 +225,7 @@ namespace PBnJamming
 
 		private void RollingBlock_Fire(On.FistVR.RollingBlock.orig_Fire orig, RollingBlock self)
 		{
-			if (Failed(self, FailureType.Fire))
+			if (Failed(self.Chamber, FailureType.Fire))
 			{
 				return;
 			}
@@ -241,7 +235,7 @@ namespace PBnJamming
 
 		private bool BreakActionWeapon_Fire(On.FistVR.BreakActionWeapon.orig_Fire orig, BreakActionWeapon self, int b)
 		{
-			if (Failed(self, FailureType.Fire))
+			if (Failed(self.Barrels[self.m_curBarrel].Chamber, FailureType.Fire))
 			{
 				return false;
 			}
@@ -251,7 +245,7 @@ namespace PBnJamming
 
 		private bool BoltActionRifle_Fire(On.FistVR.BoltActionRifle.orig_Fire orig, BoltActionRifle self)
 		{
-			if (Failed(self, FailureType.Fire))
+			if (Failed(self.Chamber, FailureType.Fire))
 			{
 				return false;
 			}
@@ -261,7 +255,8 @@ namespace PBnJamming
 
 		private void LeverActionFirearm_Fire(On.FistVR.LeverActionFirearm.orig_Fire orig, LeverActionFirearm self)
 		{
-			if (Failed(self, FailureType.Fire))
+			// TODO: edge case with second chamber
+			if (Failed(self.Chamber, FailureType.Fire))
 			{
 				self.m_isHammerCocked = false;
 				self.PlayAudioEvent(FirearmAudioEventType.HammerHit);
@@ -277,7 +272,7 @@ namespace PBnJamming
 
 		private void ClosedBoltWeapon_BeginChamberingRound(On.FistVR.ClosedBoltWeapon.orig_BeginChamberingRound orig, ClosedBoltWeapon self)
 		{
-			if (Failed(self, FailureType.Feed))
+			if (Failed(self.Chamber, FailureType.Feed))
 			{
 				return;
 			}
@@ -287,7 +282,7 @@ namespace PBnJamming
 
 		private void OpenBoltReceiver_BeginChamberingRound(On.FistVR.OpenBoltReceiver.orig_BeginChamberingRound orig, OpenBoltReceiver self)
 		{
-			if (Failed(self, FailureType.Feed))
+			if (Failed(self.Chamber, FailureType.Feed))
 			{
 				return;
 			}
@@ -297,7 +292,7 @@ namespace PBnJamming
 
 		private void Handgun_ExtractRound(On.FistVR.Handgun.orig_ExtractRound orig, Handgun self)
 		{
-			if (Failed(self, FailureType.Feed))
+			if (Failed(self.Chamber, FailureType.Feed))
 			{
 				return;
 			}
@@ -307,7 +302,7 @@ namespace PBnJamming
 
 		private void TubeFedShotgun_ExtractRound(On.FistVR.TubeFedShotgun.orig_ExtractRound orig, TubeFedShotgun self)
 		{
-			if (Failed(self, FailureType.Feed))
+			if (Failed(self.Chamber, FailureType.Feed))
 			{
 				return;
 			}
@@ -320,7 +315,7 @@ namespace PBnJamming
 			// TODO: make BoltActionRifle not render ProxyRound on feed failures
 			if ((self.Firearm is LeverActionFirearm || self.Firearm is BoltActionRifle) && round != null)
 			{
-				if (Failed(self.Firearm, FailureType.Feed))
+				if (Failed(self, FailureType.Feed))
 				{
 					// Add round that will be removed in UpdateLever or UpdateBolt
 					self.Firearm.Magazine.AddRound(round, false, true);
@@ -338,7 +333,7 @@ namespace PBnJamming
 		private void ClosedBolt_ImpartFiringImpulse(On.FistVR.ClosedBolt.orig_ImpartFiringImpulse orig, ClosedBolt self)
 		{
 			if (_extractFlag) { return; }
-			if (Failed(self.Weapon, FailureType.Extract))
+			if (Failed(self.Weapon.Chamber, FailureType.Extract))
 			{
 				self.RotationInterpSpeed = 2;
 				return;
@@ -350,7 +345,7 @@ namespace PBnJamming
 		private void OpenBoltReceiverBolt_ImpartFiringImpulse(On.FistVR.OpenBoltReceiverBolt.orig_ImpartFiringImpulse orig, OpenBoltReceiverBolt self)
 		{
 			if (_extractFlag) { return; }
-			if (Failed(self.Receiver, FailureType.Extract))
+			if (Failed(self.Receiver.Chamber, FailureType.Extract))
 			{
 				self.RotationInterpSpeed = 2;
 				return;
@@ -362,7 +357,7 @@ namespace PBnJamming
 		private void HandgunSlide_ImpartFiringImpulse(On.FistVR.HandgunSlide.orig_ImpartFiringImpulse orig, HandgunSlide self)
 		{
 			if (_extractFlag) { return; }
-			if (Failed(self.Handgun, FailureType.Extract))
+			if (Failed(self.Handgun.Chamber, FailureType.Extract))
 			{
 				self.RotationInterpSpeed = 2;
 				return;
@@ -374,7 +369,7 @@ namespace PBnJamming
 		private void TubeFedShotgun_EjectExtractedRound(On.FistVR.TubeFedShotgun.orig_EjectExtractedRound orig, TubeFedShotgun self)
 		{
 			if (_extractFlag) { return; }
-			if (Failed(self, FailureType.Extract))
+			if (Failed(self.Chamber, FailureType.Extract))
 			{
 				self.RotationInterpSpeed = 2;
 				return;
@@ -386,23 +381,12 @@ namespace PBnJamming
 		private void BreakActionWeapon_PopOutRound(On.FistVR.BreakActionWeapon.orig_PopOutRound orig, BreakActionWeapon self, FVRFireArmChamber chamber)
 		{
 			if (_extractFlag) { return; }
-			if (Failed(self, FailureType.Extract))
+			if (Failed(chamber, FailureType.Extract))
 			{
 				return;
 			}
 
 			orig(self, chamber);
-		}
-
-		private void BreakActionWeapon_PopOutEmpties(On.FistVR.BreakActionWeapon.orig_PopOutEmpties orig, BreakActionWeapon self)
-		{
-			if (_extractFlag) { return; }
-			if (Failed(self, FailureType.Extract))
-			{
-				return;
-			}
-
-			orig(self);
 		}
 		#endregion
 
@@ -410,7 +394,7 @@ namespace PBnJamming
 
 		private void Handgun_EngageSlideRelease(On.FistVR.Handgun.orig_EngageSlideRelease orig, Handgun self)
 		{
-			if (Failed(self, FailureType.LockOpen))
+			if (Failed(self.Chamber, FailureType.LockOpen))
 			{
 				return;
 			}
@@ -420,7 +404,7 @@ namespace PBnJamming
 
 		private void ClosedBolt_LockBolt(On.FistVR.ClosedBolt.orig_LockBolt orig, ClosedBolt self)
 		{
-			if (Failed(self.Weapon, FailureType.LockOpen))
+			if (Failed(self.Weapon.Chamber, FailureType.LockOpen))
 			{
 				return;
 			}
@@ -434,7 +418,7 @@ namespace PBnJamming
 
 		private void HandgunSlide_SlideEvent_ArriveAtFore(On.FistVR.HandgunSlide.orig_SlideEvent_ArriveAtFore orig, HandgunSlide self)
 		{
-			if (Failed(self.Handgun, FailureType.Discharge))
+			if (Failed(self.Handgun.Chamber, FailureType.Discharge))
 			{
 				self.Handgun.ChamberRound();
 				self.Handgun.DropHammer(false);
@@ -445,7 +429,7 @@ namespace PBnJamming
 
 		private void ClosedBolt_BoltEvent_ArriveAtFore(On.FistVR.ClosedBolt.orig_BoltEvent_ArriveAtFore orig, ClosedBolt self)
 		{
-			if (Failed(self.Weapon, FailureType.Discharge))
+			if (Failed(self.Weapon.Chamber, FailureType.Discharge))
 			{
 				self.Weapon.ChamberRound();
 				self.Weapon.DropHammer();
@@ -456,7 +440,7 @@ namespace PBnJamming
 
 		private void TubeFedShotgunBolt_BoltEvent_ArriveAtFore(On.FistVR.TubeFedShotgunBolt.orig_BoltEvent_ArriveAtFore orig, TubeFedShotgunBolt self)
 		{
-			if (Failed(self.Shotgun, FailureType.Discharge))
+			if (Failed(self.Shotgun.Chamber, FailureType.Discharge))
 			{
 				self.Shotgun.ChamberRound();
 				self.Shotgun.ReleaseHammer();
@@ -467,7 +451,7 @@ namespace PBnJamming
 
 		private void OpenBoltReceiverBolt_BoltEvent_BoltCaught(On.FistVR.OpenBoltReceiverBolt.orig_BoltEvent_BoltCaught orig, OpenBoltReceiverBolt self)
 		{
-			if (Failed(self.Receiver, FailureType.Discharge))
+			if (Failed(self.Receiver.Chamber, FailureType.Discharge))
 			{
 				self.Receiver.ReleaseSeer();
 			}

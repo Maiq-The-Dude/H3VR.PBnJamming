@@ -1,7 +1,7 @@
 using System;
 using Valve.Newtonsoft.Json;
 
-namespace PBnJamming.Failures
+namespace PBnJamming
 {
 	public readonly struct FailureMask : IEquatable<FailureMask>
 	{
@@ -14,7 +14,7 @@ namespace PBnJamming.Failures
 		public float Discharge { get; }
 
 		[JsonConstructor]
-		public FailureMask(float fire, float feed, float extract, float lockOpen, float discharge)
+		public FailureMask(float fire = 0, float feed = 0, float extract = 0, float lockOpen = 0, float discharge = 0)
 		{
 			Fire = fire;
 			Feed = feed;

@@ -2,15 +2,15 @@
   "Colonial": {
     "fire": 0.3
   },
-  "Futuristic": { },
-  "Medieval": { },
+  "Futuristic": {},
+  "Medieval": {},
   "Modern": {
     "fire": 0.001,
     "feed": 0.0025,
     "extract": 0.001,
     "lockOpen": 0.001
   },
-  "None": { },
+  "None": {},
   "PostWar": {
     "fire": 0.025,
     "feed": 0.05,

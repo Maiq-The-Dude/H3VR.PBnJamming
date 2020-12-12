@@ -15,6 +15,6 @@ namespace PBnJamming.Failures
 			_weight = weight;
 		}
 
-		public Option<FailureMask> this[FVRFireArm gun] => _failure[gun].Map(v => v * _weight());
+		public Option<FailureMask> this[FVRFireArmChamber chamber] => _failure[chamber].Map(v => v * _weight());
 	}
 }
