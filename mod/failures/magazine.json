@@ -1,17 +1,35 @@
 {
-  "Express870": {
-    "feed": 0.01
+  "MagazineM1911Dillinger" : {
+   "feed": 0.05
   },
-  "MagazineAKS74U2": {
-    "feed": 0.01
+  "MagazineM1911Tactical" : {
+   "feed": 0.01
+  },
+  "MagazineMakarovDrum": {
+   "feed": 0.1
+  },
+  "MagazineMauser30Rnd" : {
+   "feed": 0.05
+  },
+  "MagazineMauser40Rnd" : {
+   "feed": 0.05
+  },
+  "MagazineMp5100rnd": {
+   "feed": 0.05
+  },
+  "MagazineG17Drum": {
+   "feed": 0.05
+  },
+  "MagazineG19_33rnd": {
+   "feed": 0.05
   },
   "MagazineG22HighCapacity": {
-    "feed": 0.9
+   "feed": 0.05
   },
   "MagazineG22Standard": {
-    "feed": 0.01
+   "feed": 0.005
   },
-  "RioBigBore": {
-    "feed": 0.30
+  "MagazineP08LugerDrum": {
+   "feed": 0.1
   }
 }

@@ -7,18 +7,20 @@ namespace PBnJamming.Configs
 	{
 		private static class Defaults
 		{
-			private const int AVG_COUNT = 8 * 30;
+			private const int NUM_ROUNDS = 1200;
+			private const int NUM_FAIL_ROLL_PER_CYCLE = 4;
+			private const int AVG_FAIL = NUM_ROUNDS * NUM_FAIL_ROLL_PER_CYCLE;
 
 			// Mechanicals have a lot to do with every failure.
-			public static readonly FailureMask Action = new FailureMask(3, 2, 6, 4, 2) / AVG_COUNT;
+			public static readonly FailureMask Action = new FailureMask(3, 2, 6, 4, 2) / AVG_FAIL;
 			// Each era is too different.
 			public static readonly FailureMask Era = default;
 			// Unique to each firearm.
 			public static readonly FailureMask Firearm = default;
 			// Magazines are the thing that feeds, so it makes sense to fail here.
-			public static readonly FailureMask Magazine = new FailureMask(feed: 7) / AVG_COUNT;
+			public static readonly FailureMask Magazine = new FailureMask(feed: 7) / AVG_FAIL;
 			// Round type is very insignificant, but could have a small amount of impact.
-			public static readonly FailureMask RoundClass = new FailureMask(fire: 3) / AVG_COUNT;
+			public static readonly FailureMask RoundClass = new FailureMask(fire: 3) / AVG_FAIL;
 			// Unique to each round size.
 			public static readonly FailureMask RoundType = default;
 		}

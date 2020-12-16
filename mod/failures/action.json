@@ -1,68 +1,9 @@
 {
-  "Automatic": {
-    "fire": 0.05,
-    "feed": 0.05,
-    "extract": 0.05,
-    "lockOpen": 0.01
-  },
-  "BreakAction": {
-    "fire": 0.01,
-    "feed": 0.01,
-    "extract": 0.01,
-    "lockOpen": 0.00
-  },
-  "BoltAction": {
-    "fire": 0.01,
-    "feed": 0.01,
-    "extract": 0.01,
-    "lockOpen": 0.00
-  },
-  "LeverAction": {
-    "fire": 0.01,
-    "feed": 0.01,
-    "extract": 0.01,
-    "lockOpen": 0.00
-  },
   "OpenBreach": {
-    "fire": 0.01,
-    "feed": 0.01,
-    "extract": 0.01,
-    "lockOpen": 0.00
-  },
-  "None": {
-    "fire": 0.00,
-    "feed": 0.00,
-    "extract": 0.00,
-    "lockOpen": 0.00
-  },
-  "Preloaded": {
-    "fire": 0.00,
-    "feed": 0.00,
-    "extract": 0.00,
-    "lockOpen": 0.00
-  },
-  "PumpAction": {
-    "fire": 0.01,
-    "feed": 0.01,
-    "extract": 0.01,
-    "lockOpen": 0.00
-  },
-  "Revolver": {
-    "fire": 0.01,
-    "feed": 0.01,
-    "extract": 0.01,
-    "lockOpen": 0.00
-  },
-  "RollingBlock": {
-    "fire": 0.01,
-    "feed": 0.01,
-    "extract": 0.01,
-    "lockOpen": 0.00
-  },
-  "SingleActionRevolver": {
-    "fire": 0.01,
-    "feed": 0.01,
-    "extract": 0.01,
-    "lockOpen": 0.00
+   "fire": 0.02,
+   "feed": 0.05,
+   "extract": 0.05,
+   "lockOpen": 0.01,
+   "discharge": 0.01
   }
 }

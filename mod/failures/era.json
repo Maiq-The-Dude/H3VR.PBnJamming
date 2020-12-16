@@ -1,44 +1,23 @@
 {
   "Colonial": {
-    "fire": 0.3
+   "fire": 0.02,
+   "feed": 0.05,
+   "extract": 0.05,
+   "lockOpen": 0.01,
+   "discharge": 0.01
   },
-  "Futuristic": {},
-  "Medieval": {},
-  "Modern": {
-    "fire": 0.001,
-    "feed": 0.0025,
-    "extract": 0.001,
-    "lockOpen": 0.001
+  "TurnOfTheCentury": { 
+   "fire": 0.01,
+   "feed": 0.02,
+   "extract": 0.02,
+   "lockOpen": 0.01,
+   "discharge": 0.001
   },
-  "None": {},
-  "PostWar": {
-    "fire": 0.025,
-    "feed": 0.05,
-    "extract": 0.05,
-    "lockOpen": 0.05
-  },
-  "TurnOfTheCentury": {
-    "fire": 0.1,
-    "feed": 0.1,
-    "extract": 0.1,
-    "lockOpen": 0.1
-  },
-  "WildWest": {
-    "fire": 0.125,
-    "feed": 0.125,
-    "extract": 0.125,
-    "lockOpen": 0.125
-  },
-  "WW1": {
-    "fire": 0.05,
-    "feed": 0.05,
-    "extract": 0.05,
-    "lockOpen": 0.05
-  },
-  "WW2": {
-    "fire": 0.05,
-    "feed": 0.05,
-    "extract": 0.01,
-    "lockOpen": 0.01
+  "WildWest": { 
+   "fire": 0.01,
+   "feed": 0.02,
+   "extract": 0.02,
+   "lockOpen": 0.01,
+   "discharge": 0.001
   }
 }

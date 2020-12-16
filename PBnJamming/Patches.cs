@@ -37,21 +37,15 @@ namespace PBnJamming
 			On.FistVR.BreakActionWeapon.Awake += BreakActionWeapon_Awake;
 
 			// Fire
-			On.FistVR.ClosedBoltWeapon.Fire += ClosedBoltWeapon_Fire;
-			On.FistVR.OpenBoltReceiver.Fire += OpenBoltReceiver_Fire;
-			On.FistVR.Handgun.Fire += Handgun_Fire;
-			On.FistVR.TubeFedShotgun.Fire += TubeFedShotgun_Fire;
-			On.FistVR.Revolver.Fire += Revolver_Fire;
-			On.FistVR.RevolvingShotgun.Fire += RevolvingShotgun_Fire;
 			On.FistVR.RollingBlock.Fire += RollingBlock_Fire;
-			On.FistVR.BreakActionWeapon.Fire += BreakActionWeapon_Fire;
-			On.FistVR.BoltActionRifle.Fire += BoltActionRifle_Fire;
-			On.FistVR.LeverActionFirearm.Fire += LeverActionFirearm_Fire;
+			On.FistVR.FVRFireArmChamber.Fire += FVRFireArmChamber_Fire;
 
 			// Feed
 			On.FistVR.ClosedBoltWeapon.BeginChamberingRound += ClosedBoltWeapon_BeginChamberingRound;
 			On.FistVR.OpenBoltReceiver.BeginChamberingRound += OpenBoltReceiver_BeginChamberingRound;
-			On.FistVR.FVRFireArmChamber.SetRound += FVRFireArmChamber_SetRound;	// LeverActionFirearm & BoltActionRifle
+			On.FistVR.FVRFireArmChamber.SetRound += FVRFireArmChamber_SetRound; // LeverActionFirearm
+			On.FistVR.Handgun.ExtractRound += Handgun_ExtractRound;
+			On.FistVR.TubeFedShotgun.ExtractRound += TubeFedShotgun_ExtractRound;
 
 			// Extract
 			On.FistVR.ClosedBolt.ImpartFiringImpulse += ClosedBolt_ImpartFiringImpulse;
@@ -59,6 +53,7 @@ namespace PBnJamming
 			On.FistVR.HandgunSlide.ImpartFiringImpulse += HandgunSlide_ImpartFiringImpulse;
 			On.FistVR.TubeFedShotgun.EjectExtractedRound += TubeFedShotgun_EjectExtractedRound;
 			On.FistVR.BreakActionWeapon.PopOutRound += BreakActionWeapon_PopOutRound;
+			On.FistVR.BreakActionWeapon.PopOutEmpties += BreakActionWeapon_PopOutEmpties;
 
 			// LockOpen
 			On.FistVR.Handgun.EngageSlideRelease += Handgun_EngageSlideRelease;
@@ -76,21 +71,15 @@ namespace PBnJamming
 			On.FistVR.BreakActionWeapon.Awake -= BreakActionWeapon_Awake;
 
 			// Fire
-			On.FistVR.ClosedBoltWeapon.Fire -= ClosedBoltWeapon_Fire;
-			On.FistVR.OpenBoltReceiver.Fire -= OpenBoltReceiver_Fire;
-			On.FistVR.Handgun.Fire -= Handgun_Fire;
-			On.FistVR.TubeFedShotgun.Fire -= TubeFedShotgun_Fire;
-			On.FistVR.Revolver.Fire -= Revolver_Fire;
-			On.FistVR.RevolvingShotgun.Fire -= RevolvingShotgun_Fire;
 			On.FistVR.RollingBlock.Fire -= RollingBlock_Fire;
-			On.FistVR.BreakActionWeapon.Fire -= BreakActionWeapon_Fire;
-			On.FistVR.BoltActionRifle.Fire -= BoltActionRifle_Fire;
-			On.FistVR.LeverActionFirearm.Fire -= LeverActionFirearm_Fire;
+			On.FistVR.FVRFireArmChamber.Fire -= FVRFireArmChamber_Fire;
 
 			// Feed
 			On.FistVR.ClosedBoltWeapon.BeginChamberingRound -= ClosedBoltWeapon_BeginChamberingRound;
 			On.FistVR.OpenBoltReceiver.BeginChamberingRound -= OpenBoltReceiver_BeginChamberingRound;
-			On.FistVR.FVRFireArmChamber.SetRound -= FVRFireArmChamber_SetRound;
+			On.FistVR.FVRFireArmChamber.SetRound -= FVRFireArmChamber_SetRound; // LeverActionFirearm
+			On.FistVR.Handgun.ExtractRound -= Handgun_ExtractRound;
+			On.FistVR.TubeFedShotgun.ExtractRound -= TubeFedShotgun_ExtractRound;
 
 			// Extract
 			On.FistVR.ClosedBolt.ImpartFiringImpulse -= ClosedBolt_ImpartFiringImpulse;
@@ -98,6 +87,7 @@ namespace PBnJamming
 			On.FistVR.HandgunSlide.ImpartFiringImpulse -= HandgunSlide_ImpartFiringImpulse;
 			On.FistVR.TubeFedShotgun.EjectExtractedRound -= TubeFedShotgun_EjectExtractedRound;
 			On.FistVR.BreakActionWeapon.PopOutRound -= BreakActionWeapon_PopOutRound;
+			On.FistVR.BreakActionWeapon.PopOutEmpties -= BreakActionWeapon_PopOutEmpties;
 
 			// LockOpen
 			On.FistVR.Handgun.EngageSlideRelease -= Handgun_EngageSlideRelease;
@@ -117,6 +107,7 @@ namespace PBnJamming
 			var ran = Random.value;
 			var mask = _tree[chamber].Unwrap();
 			var chance = mask[failure];
+			var failed = ran <= chance;
 
 			if (_config.Value && !_lockFlag && !_extractFlag)
 			{
@@ -124,33 +115,24 @@ namespace PBnJamming
 				var builder = new StringBuilder().AppendLine()
 					.Append("┌─────Failure Roll Report─────").AppendLine()
 					.Append("│ ItemID: ").Append(gun.ObjectWrapper == null ? "" : gun.ObjectWrapper.ItemID).AppendLine()
-					.Append("│  Era: ").Append(gun.ObjectWrapper == null ? FVRObject.OTagFirearmAction.None : gun.ObjectWrapper.TagFirearmAction).AppendLine()
+					.Append("│  Era: ").Append(gun.ObjectWrapper == null ? FVRObject.OTagEra.None : gun.ObjectWrapper.TagEra).AppendLine()
 					.Append("│  Action: ").Append(gun.ObjectWrapper == null ? FVRObject.OTagFirearmAction.None : gun.ObjectWrapper.TagFirearmAction).AppendLine()
 					.Append("│  Magazine: ").Append((gun.Magazine == null || gun.Magazine.ObjectWrapper == null) ? "" : (gun.Magazine.IsIntegrated ? gun.Magazine.FireArm.ObjectWrapper.ItemID : gun.Magazine.ObjectWrapper.ItemID)).AppendLine()
 					.Append("│   Round Type: ").Append(gun.RoundType).AppendLine()
-					.Append("|   Round Class: ").Append(chamber.m_round.RoundClass).AppendLine()
+					.Append("|   Round Class: ").Append(chamber.m_round == null ? "" : chamber.m_round.RoundClass.ToString()).AppendLine()
 					.Append("│ Failure Rolled: ").Append(failure).AppendLine()
 					.Append("│  Random: ").Append(ran).AppendLine()
 					.Append("│  Chance: ").Append(chance).AppendLine()
+					.Append("│  Roll: ").Append(failed).AppendLine()
 					.Append("└─────────────────────────────");
 
 				_logger.LogDebug(builder);
 			}
 
 			// These base methods are run in Update() - use dumb lock to prevent console spam for now
-			_extractFlag = _lockFlag = false;
+			PreventConsoleSpam(chamber.Firearm, failure);			
 
-			switch (failure)
-			{
-				case FailureType.Extract:
-					_extractFlag = true;
-					break;
-				case FailureType.LockOpen:
-					_lockFlag = true;
-					break;
-			}
-
-			return ran <= chance;
+			return failed;
 		}
 
 		#region Patches
@@ -163,67 +145,6 @@ namespace PBnJamming
 
 		#region Fire
 
-		private bool ClosedBoltWeapon_Fire(On.FistVR.ClosedBoltWeapon.orig_Fire orig, ClosedBoltWeapon self)
-		{
-
-			if (Failed(self.Chamber, FailureType.Fire))
-			{
-				return false;
-			}
-
-			return orig(self);
-		}
-
-		private bool OpenBoltReceiver_Fire(On.FistVR.OpenBoltReceiver.orig_Fire orig, OpenBoltReceiver self)
-		{
-			if (Failed(self.Chamber, FailureType.Fire))
-			{
-				return false;
-			}
-
-			return orig(self);
-		}
-
-		private bool Handgun_Fire(On.FistVR.Handgun.orig_Fire orig, Handgun self)
-		{
-			if (Failed(self.Chamber, FailureType.Fire))
-			{
-				return false;
-			}
-
-			return orig(self);
-		}
-
-		private bool TubeFedShotgun_Fire(On.FistVR.TubeFedShotgun.orig_Fire orig, TubeFedShotgun self)
-		{
-			if (Failed(self.Chamber, FailureType.Fire))
-			{
-				return false;
-			}
-
-			return orig(self);
-		}
-
-		private void Revolver_Fire(On.FistVR.Revolver.orig_Fire orig, Revolver self)
-		{
-			if (Failed(self.Chambers[self.CurChamber], FailureType.Fire))
-			{
-				return;
-			}
-
-			orig(self);
-		}
-
-		private void RevolvingShotgun_Fire(On.FistVR.RevolvingShotgun.orig_Fire orig, RevolvingShotgun self)
-		{
-			if (Failed(self.Chambers[self.CurChamber], FailureType.Fire))
-			{
-				return;
-			}
-
-			orig(self);
-		}
-
 		private void RollingBlock_Fire(On.FistVR.RollingBlock.orig_Fire orig, RollingBlock self)
 		{
 			if (Failed(self.Chamber, FailureType.Fire))
@@ -234,37 +155,17 @@ namespace PBnJamming
 			orig(self);
 		}
 
-		private bool BreakActionWeapon_Fire(On.FistVR.BreakActionWeapon.orig_Fire orig, BreakActionWeapon self, int b)
+		private bool FVRFireArmChamber_Fire(On.FistVR.FVRFireArmChamber.orig_Fire orig, FVRFireArmChamber self)
 		{
-			if (Failed(self.Barrels[self.m_curBarrel].Chamber, FailureType.Fire))
+			if (!(self.Firearm is RollingBlock))
 			{
-				return false;
-			}
-
-			return orig(self, b);
-		}
-
-		private bool BoltActionRifle_Fire(On.FistVR.BoltActionRifle.orig_Fire orig, BoltActionRifle self)
-		{
-			if (Failed(self.Chamber, FailureType.Fire))
-			{
-				return false;
+				if (Failed(self, FailureType.Fire))
+				{
+					return false;
+				}
 			}
 
 			return orig(self);
-		}
-
-		private void LeverActionFirearm_Fire(On.FistVR.LeverActionFirearm.orig_Fire orig, LeverActionFirearm self)
-		{
-			// TODO: edge case with second chamber
-			if (Failed(self.Chamber, FailureType.Fire))
-			{
-				self.m_isHammerCocked = false;
-				self.PlayAudioEvent(FirearmAudioEventType.HammerHit);
-				return;
-			}
-
-			orig(self);
 		}
 
 		#endregion
@@ -332,7 +233,6 @@ namespace PBnJamming
 
 		private void ClosedBolt_ImpartFiringImpulse(On.FistVR.ClosedBolt.orig_ImpartFiringImpulse orig, ClosedBolt self)
 		{
-			if (_extractFlag) { return; }
 			if (Failed(self.Weapon.Chamber, FailureType.Extract))
 			{
 				self.RotationInterpSpeed = 2;
@@ -344,7 +244,6 @@ namespace PBnJamming
 
 		private void OpenBoltReceiverBolt_ImpartFiringImpulse(On.FistVR.OpenBoltReceiverBolt.orig_ImpartFiringImpulse orig, OpenBoltReceiverBolt self)
 		{
-			if (_extractFlag) { return; }
 			if (Failed(self.Receiver.Chamber, FailureType.Extract))
 			{
 				self.RotationInterpSpeed = 2;
@@ -356,7 +255,6 @@ namespace PBnJamming
 
 		private void HandgunSlide_ImpartFiringImpulse(On.FistVR.HandgunSlide.orig_ImpartFiringImpulse orig, HandgunSlide self)
 		{
-			if (_extractFlag) { return; }
 			if (Failed(self.Handgun.Chamber, FailureType.Extract))
 			{
 				self.RotationInterpSpeed = 2;
@@ -368,7 +266,6 @@ namespace PBnJamming
 
 		private void TubeFedShotgun_EjectExtractedRound(On.FistVR.TubeFedShotgun.orig_EjectExtractedRound orig, TubeFedShotgun self)
 		{
-			if (_extractFlag) { return; }
 			if (Failed(self.Chamber, FailureType.Extract))
 			{
 				self.RotationInterpSpeed = 2;
@@ -380,7 +277,6 @@ namespace PBnJamming
 
 		private void BreakActionWeapon_PopOutRound(On.FistVR.BreakActionWeapon.orig_PopOutRound orig, BreakActionWeapon self, FVRFireArmChamber chamber)
 		{
-			if (_extractFlag) { return; }
 			if (Failed(chamber, FailureType.Extract))
 			{
 				return;
@@ -388,6 +284,17 @@ namespace PBnJamming
 
 			orig(self, chamber);
 		}
+
+		private void BreakActionWeapon_PopOutEmpties(On.FistVR.BreakActionWeapon.orig_PopOutEmpties orig, BreakActionWeapon self)
+		{
+			if (Failed(self.Barrels[self.m_curBarrel].Chamber, FailureType.Extract))
+			{
+				return;
+			}
+
+			orig(self);
+		}
+
 		#endregion
 
 		#region LockOpen
@@ -461,5 +368,23 @@ namespace PBnJamming
 		#endregion
 
 		#endregion
+
+		private void PreventConsoleSpam(FVRFireArm firearm, FailureType failure)
+		{
+			_extractFlag = _lockFlag = false;
+
+			switch (failure)
+			{
+				case FailureType.Extract:
+					if (firearm is BreakActionWeapon)
+					{
+						_extractFlag = true;
+					}
+					break;
+				case FailureType.LockOpen:
+					_lockFlag = true;
+					break;
+			}
+		}
 	}
 }

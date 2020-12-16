@@ -71,8 +71,24 @@ namespace PBnJamming
 
 				return Option.Some(wrapper.ItemID);
 			});
-			yield return CreateFailureLeaf("round.class", FailureSource.RoundClass, c => Option.Some(c.m_round.RoundClass));
-			yield return CreateFailureLeaf("round.type", FailureSource.RoundType, c => Option.Some(c.m_round.RoundType));
+			yield return CreateFailureLeaf("round.class", FailureSource.RoundClass, c =>
+			{
+				var round = c.m_round;
+				if (round == null)
+				{
+					return Option.None<FireArmRoundClass>();
+				}
+				return Option.Some(c.m_round.RoundClass);
+			}); 
+			yield return CreateFailureLeaf("round.type", FailureSource.RoundType, c =>
+			{
+				var round = c.m_round;
+				if (round == null)
+				{
+					return Option.None<FireArmRoundType>();
+				}
+				return Option.Some(c.RoundType);
+			}); 
 		}
 
 		private IFailure CreateFailureLeaf<TKey>(string name, FailureSource source, Mapper<FVRFireArmChamber, Option<TKey>> keyFromChamber)
