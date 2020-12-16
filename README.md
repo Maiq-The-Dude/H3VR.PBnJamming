@@ -3,7 +3,7 @@
 A WIP firearm malfunction mod inspired by [Meatyceiver 2](https://github.com/potatoes1286/H3VR.Meatyceiver2). This mod builds onto Meatyceiver's core idea and adds modular firearm tags used to determine failure rates at a granular level.
 
 ## Features
-- A supported firearm's failure rate is determined by the combination of the following firearm tags:
+- A supported firearm's malfunction rate is determined by the combination of the following firearm tags:
   - Firearm ItemID
   - Action
   - Era
@@ -23,9 +23,9 @@ A WIP firearm malfunction mod inspired by [Meatyceiver 2](https://github.com/pot
   - RollingBlock
   - TubeFedShotgun  
   
-## Configuration
+## Firearm Malfunction Configuration
 - Default firearm tags are configured under the [`failures`](https://github.com/Maiq-The-Dude/PBnJamming/tree/main/mod/failures) folder. 
-- Each firearm tag (currently) supports five malfunction properties, each containing a float used as its weighted chance value.
+- Each firearm tag currently supports five malfunction properties, each containing a float used as its weighted chance value.
 - Malfunction properties:
   - fire
   - feed
@@ -33,6 +33,12 @@ A WIP firearm malfunction mod inspired by [Meatyceiver 2](https://github.com/pot
   - lockOpen
   - discharge
   
+## User Configs
+Additional user configs can be found under `mods\configs\pbnjamming.cfg`
+
+## Adding Custom Content Support
+Adding and configuring custom content like guns or magazines is easy. [Here is an example repo](https://github.com/Maiq-The-Dude/PBnJamming.ExampleAddon) containing a mod to add two custom guns and one custom magazine.
+
 ## Installation
 No releases available yet. To install you must build the project yourself and place into `mods` folder as this is a Deli mod.
 
