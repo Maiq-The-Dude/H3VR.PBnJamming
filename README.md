@@ -4,12 +4,12 @@ A WIP firearm malfunction mod inspired by [Meatyceiver 2](https://github.com/pot
 
 ## Features
 - A supported firearm's failure rate is determined by the combination of the following firearm tags:
-  - ItemID
-  - Era
+  - Firearm ItemID
   - Action
+  - Era
+  - Magazine ItemID
   - Round Type
   - Round Class
-  - Magazine
 - Firearm tags are modular and easy to configure. Uses [Deli](https://github.com/Deli-Counter/Deli) to easily load corresponding JSON files. See the [Configuration](https://github.com/Maiq-The-Dude/PBnJamming#configuration) section below for more information.
 - Firearms currently supported:
   - BoltActionRifle

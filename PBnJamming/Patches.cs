@@ -64,7 +64,7 @@ namespace PBnJamming
 			On.FistVR.Handgun.EngageSlideRelease += Handgun_EngageSlideRelease;
 			On.FistVR.ClosedBolt.LockBolt += ClosedBolt_LockBolt;
 
-			// AccDischarge
+			// Discharge
 			On.FistVR.HandgunSlide.SlideEvent_ArriveAtFore += HandgunSlide_SlideEvent_ArriveAtFore;
 			On.FistVR.ClosedBolt.BoltEvent_ArriveAtFore += ClosedBolt_BoltEvent_ArriveAtFore;
 			On.FistVR.TubeFedShotgunBolt.BoltEvent_ArriveAtFore += TubeFedShotgunBolt_BoltEvent_ArriveAtFore;
@@ -103,7 +103,7 @@ namespace PBnJamming
 			On.FistVR.Handgun.EngageSlideRelease -= Handgun_EngageSlideRelease;
 			On.FistVR.ClosedBolt.LockBolt -= ClosedBolt_LockBolt;
 
-			// AccDischarge
+			// Discharge
 			On.FistVR.HandgunSlide.SlideEvent_ArriveAtFore -= HandgunSlide_SlideEvent_ArriveAtFore;
 			On.FistVR.ClosedBolt.BoltEvent_ArriveAtFore -= ClosedBolt_BoltEvent_ArriveAtFore;
 			On.FistVR.TubeFedShotgunBolt.BoltEvent_ArriveAtFore -= TubeFedShotgunBolt_BoltEvent_ArriveAtFore;
@@ -126,8 +126,9 @@ namespace PBnJamming
 					.Append("│ ItemID: ").Append(gun.ObjectWrapper == null ? "" : gun.ObjectWrapper.ItemID).AppendLine()
 					.Append("│  Era: ").Append(gun.ObjectWrapper == null ? FVRObject.OTagFirearmAction.None : gun.ObjectWrapper.TagFirearmAction).AppendLine()
 					.Append("│  Action: ").Append(gun.ObjectWrapper == null ? FVRObject.OTagFirearmAction.None : gun.ObjectWrapper.TagFirearmAction).AppendLine()
-					.Append("│  Round: ").Append(gun.RoundType).AppendLine()
 					.Append("│  Magazine: ").Append((gun.Magazine == null || gun.Magazine.ObjectWrapper == null) ? "" : (gun.Magazine.IsIntegrated ? gun.Magazine.FireArm.ObjectWrapper.ItemID : gun.Magazine.ObjectWrapper.ItemID)).AppendLine()
+					.Append("│   Round Type: ").Append(gun.RoundType).AppendLine()
+					.Append("|   Round Class: ").Append(chamber.m_round.RoundClass).AppendLine()
 					.Append("│ Failure Rolled: ").Append(failure).AppendLine()
 					.Append("│  Random: ").Append(ran).AppendLine()
 					.Append("│  Chance: ").Append(chance).AppendLine()

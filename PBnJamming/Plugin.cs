@@ -27,13 +27,13 @@ namespace PBnJamming
 		public Plugin()
 		{
 			_config = new RootConfig(Config);
-
+			
 			IFailure tree;
 			tree = new SumFailure(CreateFailureLeafs().ToArray());
 			tree = new MultiplicativeFailure(tree, () => _config.GlobalMultiplier.Mask);
 
 			_patches = new Patches(Logger, tree, _config.Log.Fires);
-
+			
 			SceneManager.activeSceneChanged += SceneChanged;
 		}
 
@@ -54,7 +54,7 @@ namespace PBnJamming
 		{
 			yield return CreateFailureLeaf("action", FailureSource.Action, WrapperMapper(v => Option.Some(v.TagFirearmAction)));
 			yield return CreateFailureLeaf("era", FailureSource.Era, WrapperMapper(v => Option.Some(v.TagEra)));
-			yield return CreateFailureLeaf("id", FailureSource.ID, WrapperMapper(v => Option.Some(v.ItemID)));
+			yield return CreateFailureLeaf("firearm", FailureSource.Firearm, WrapperMapper(v => Option.Some(v.ItemID)));
 			yield return CreateFailureLeaf("magazine", FailureSource.Magazine, c =>
 			{
 				var mag = c.Firearm.Magazine;
@@ -99,7 +99,7 @@ namespace PBnJamming
 				return mask == default ? Option.None<FailureMask>() : Option.Some(mask);
 			});
 			failure = new MultiplicativeFailure(failure, () => sourceConfig.Multiplier.Mask);
-
+			
 			return failure;
 		}
 	}

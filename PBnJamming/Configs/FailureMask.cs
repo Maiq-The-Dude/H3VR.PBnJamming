@@ -1,7 +1,6 @@
 using System;
 using ADepIn;
 using BepInEx.Configuration;
-using PBnJamming.Failures;
 
 namespace PBnJamming.Configs
 {

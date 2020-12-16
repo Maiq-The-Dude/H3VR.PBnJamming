@@ -4,7 +4,7 @@ namespace PBnJamming
 	{
 		Action,
 		Era,
-		ID,
+		Firearm,
 		Magazine,
 		RoundClass,
 		RoundType

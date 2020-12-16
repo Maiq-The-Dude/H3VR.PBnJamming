@@ -1,6 +1,5 @@
 using System;
 using BepInEx.Configuration;
-using PBnJamming.Failures;
 
 namespace PBnJamming.Configs
 {
@@ -15,7 +14,7 @@ namespace PBnJamming.Configs
 			// Each era is too different.
 			public static readonly FailureMask Era = default;
 			// Unique to each firearm.
-			public static readonly FailureMask ID = default;
+			public static readonly FailureMask Firearm = default;
 			// Magazines are the thing that feeds, so it makes sense to fail here.
 			public static readonly FailureMask Magazine = new FailureMask(feed: 7) / AVG_COUNT;
 			// Round type is very insignificant, but could have a small amount of impact.
@@ -26,7 +25,7 @@ namespace PBnJamming.Configs
 
 		public FailureSourceConfig Action { get; }
 		public FailureSourceConfig Era { get; }
-		public FailureSourceConfig ID { get; }
+		public FailureSourceConfig Firearm { get; }
 		public FailureSourceConfig Magazine { get; }
 		public FailureSourceConfig RoundClass { get; }
 		public FailureSourceConfig RoundType { get; }
@@ -35,7 +34,7 @@ namespace PBnJamming.Configs
 		{
 			Action = new FailureSourceConfig(section + "." + nameof(Action), config, Defaults.Action);
 			Era = new FailureSourceConfig(section + "." + nameof(Era), config, Defaults.Era);
-			ID = new FailureSourceConfig(section + "." + nameof(ID), config, Defaults.ID);
+			Firearm = new FailureSourceConfig(section + "." + nameof(Firearm), config, Defaults.Firearm);
 			Magazine = new FailureSourceConfig(section + "." + nameof(Magazine), config, Defaults.Magazine);
 			RoundClass = new FailureSourceConfig(section + "." + nameof(RoundClass), config, Defaults.RoundClass);
 			RoundType = new FailureSourceConfig(section + "." + nameof(RoundType), config, Defaults.RoundType);
@@ -45,7 +44,7 @@ namespace PBnJamming.Configs
 		{
 			Action?.Dispose();
 			Era?.Dispose();
-			ID?.Dispose();
+			Firearm?.Dispose();
 			Magazine?.Dispose();
 			RoundClass?.Dispose();
 			RoundType?.Dispose();
@@ -56,7 +55,7 @@ namespace PBnJamming.Configs
 			{
 				FailureSource.Action => Action,
 				FailureSource.Era => Era,
-				FailureSource.ID => ID,
+				FailureSource.Firearm => Firearm,
 				FailureSource.Magazine => Magazine,
 				FailureSource.RoundClass => RoundClass,
 				FailureSource.RoundType => RoundType,
